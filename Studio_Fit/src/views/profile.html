@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Fit - Mi Perfil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header style="border-bottom: 1px solid #d4af37; padding: 1rem 0;">
+        <div class="header-container" style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
+            <a class="logo" onclick="app.navigateTo('home')" style="cursor: pointer; color: #d4af37; font-size: 1.5rem; font-weight: bold; text-decoration: none;">Studio Fit</a>
+            <nav>
+                <ul style="list-style: none; display: flex; gap: 2rem; margin: 0; padding: 0; flex-wrap: wrap; font-size: 0.95rem;">
+                    <li><a href="#" onclick="app.navigateTo('catalog'); return false;" style="color: white; text-decoration: none;">Catálogo</a></li>
+                    <li><a href="#" onclick="app.navigateTo('community'); return false;" style="color: white; text-decoration: none;">Comunidad</a></li>
+                    <li><a href="#" onclick="app.navigateTo('publish-product'); return false;" style="color: white; text-decoration: none;">Publicar</a></li>
+                    <li><a href="#" onclick="app.navigateTo('about'); return false;" style="color: white; text-decoration: none;">Nosotros</a></li>
+                    <li><a href="#" onclick="app.navigateTo('classes'); return false;" style="color: white; text-decoration: none;">Clases</a></li>
+                    <li><a href="#" onclick="app.navigateTo('contact'); return false;" style="color: white; text-decoration: none;">Contacto</a></li>
+                    <li><a href="#" onclick="app.navigateTo('admin'); return false;" style="color: #d4af37; text-decoration: none; font-weight: 600; border: 1px solid #d4af37; padding: 0.4rem 0.8rem; border-radius: 4px;">Admin</a></li>
+                    <li><a href="#" onclick="app.handleLogout(); return false;" style="color: #e74c3c; font-weight: bold;">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="flex: 1;">
+        
+
+        <div style="max-width: 1200px; margin: 2rem auto; padding: 0 2rem;">
+
+            <!-- Sección de Datos Personales -->
+            <div style="background: rgba(255,255,255,0.05); border: 2px solid #d4af37; border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 style="color: #d4af37; margin: 0;">Datos Personales</h2>
+                    <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;" onclick="app.showAlert('info', 'Funcionalidad de edición próximamente')">Editar</button>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div>
+                        <p style="color: #d4af37; font-weight: bold; margin-bottom: 0.5rem;">Nombre</p>
+                        <p style="color: #ccc; margin: 0;">Juan Martinez</p>
+                    </div>
+                    <div>
+                        <p style="color: #d4af37; font-weight: bold; margin-bottom: 0.5rem;">Correo Electrónico</p>
+                        <p style="color: #ccc; margin: 0;">juan@studiofit.com</p>
+                    </div>
+                    <div>
+                        <p style="color: #d4af37; font-weight: bold; margin-bottom: 0.5rem;">Teléfono</p>
+                        <p style="color: #ccc; margin: 0;">+52 (449) 123-4567</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Membresía -->
+            <div style="background: rgba(212, 175, 55, 0.1); border: 2px solid #d4af37; border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                <h2 style="color: #d4af37; margin-top: 0;">Mi Plan de Membresía</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                    <div style="text-align: center;">
+                        <p style="color: #d4af37; font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">Plan Actual</p>
+                        <p style="color: #ccc; font-size: 2rem; margin: 0;">Premium Plus</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <p style="color: #d4af37; font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">Costo Anual</p>
+                        <p style="color: #ccc; font-size: 2rem; margin: 0;">$499.99</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <p style="color: #d4af37; font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">Fecha de Compra</p>
+                        <p style="color: #ccc; margin: 0;">15-11-2023</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <p style="color: #d4af37; font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">Renovación</p>
+                        <p style="color: #ccc; margin: 0;">15-11-2024</p>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; text-align: center;">
+                    <p style="color: #d4af37; margin-bottom: 1rem;"><strong>Incluye:</strong></p>
+                    <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; color: #ccc;">
+                        <li><i class="fas fa-dumbbell" style="color: #d4af37; margin-right: 0.5rem;"></i>Acceso Gym Completo</li>
+                        <li><i class="fas fa-water" style="color: #d4af37; margin-right: 0.5rem;"></i>Alberca</li>
+                        <li><i class="fas fa-graduation-cap" style="color: #d4af37; margin-right: 0.5rem;"></i>Clases Seleccionadas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección de Clases Inscritas -->
+            <div style="background: rgba(255,255,255,0.05); border: 2px solid #d4af37; border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                <h2 style="color: #d4af37; margin-top: 0;">Mis Clases Inscritas</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <div style="background: rgba(212, 175, 55, 0.05); border: 1px solid #d4af37; border-radius: 10px; padding: 1.5rem;">
+                        <h3 style="color: #d4af37; margin-top: 0; margin-bottom: 0.5rem;">Entrenamiento de Fuerza</h3>
+                        <p style="color: #ccc; margin: 0.5rem 0; font-size: 0.95rem;"><span style="color: #d4af37; font-weight: bold;">Instructor:</span> Juan Pérez</p>
+                        <p style="color: #ccc; margin: 0.5rem 0; font-size: 0.95rem;"><span style="color: #d4af37; font-weight: bold;">Horario:</span> Lunes y Miércoles: 6:00 AM - 7:00 AM</p>
+                        <p style="color: #ccc; margin: 0.5rem 0; font-size: 0.95rem;"><span style="color: #d4af37; font-weight: bold;">Inscrito desde:</span> 20-11-2023</p>
+                    </div>
+                    <div style="background: rgba(212, 175, 55, 0.05); border: 1px solid #d4af37; border-radius: 10px; padding: 1.5rem;">
+                        <h3 style="color: #d4af37; margin-top: 0; margin-bottom: 0.5rem;">Spinning</h3>
+                        <p style="color: #ccc; margin: 0.5rem 0; font-size: 0.95rem;"><span style="color: #d4af37; font-weight: bold;">Instructor:</span> María García</p>
+                        <p style="color: #ccc; margin: 0.5rem 0; font-size: 0.95rem;"><span style="color: #d4af37; font-weight: bold;">Horario:</span> Martes y Jueves: 6:00 PM - 7:00 PM</p>
+                        <p style="color: #ccc; margin: 0.5rem 0; font-size: 0.95rem;"><span style="color: #d4af37; font-weight: bold;">Inscrito desde:</span> 25-11-2023</p>
+                    </div>
+                    <div style="background: rgba(212, 175, 55, 0.05); border: 1px solid #d4af37; border-radius: 10px; padding: 1.5rem;">
+                        <h3 style="color: #d4af37; margin-top: 0; margin-bottom: 0.5rem;">Yoga y Flexibilidad</h3>
+                        <p style="color: #ccc; margin: 0.5rem 0; font-size: 0.95rem;"><span style="color: #d4af37; font-weight: bold;">Instructor:</span> Ana López</p>
+                        <p style="color: #ccc; margin: 0.5rem 0; font-size: 0.95rem;"><span style="color: #d4af37; font-weight: bold;">Horario:</span> Sábado y Domingo: 10:00 AM - 11:00 AM</p>
+                        <p style="color: #ccc; margin: 0.5rem 0; font-size: 0.95rem;"><span style="color: #d4af37; font-weight: bold;">Inscrito desde:</span> 01-12-2023</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Historial de Compras -->
+            <div style="background: rgba(255,255,255,0.05); border: 2px solid #d4af37; border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                <h2 style="color: #d4af37; margin-top: 0;">Historial de Compras</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p style="color: #ccc;">Consulta el historial completo de tus transacciones y pagos realizados.</p>
+                    <button class="btn btn-primary" style="padding: 0.7rem 1.5rem;" onclick="app.showAlert('Historial de compras:)">Ver Historial</button>
+                </div>
+            </div>
+
+            <!-- Sección de Cerrar Sesión -->
+            <div style="margin-bottom: 2rem;">
+                <button style="width: 100%; padding: 1rem; font-size: 1rem; background-color: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#c0392b'" onmouseout="this.style.backgroundColor='#e74c3c'" onclick="app.handleLogout()">
+                    <i class="fas fa-sign-out-alt" style="margin-right: 0.5rem;"></i>Cerrar Sesión
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer style="background: linear-gradient(135deg, #050813 0%, #0a0e27 100%); border-top: 2px solid #d4af37; padding: 2rem; margin-top: 3rem;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h3 style="color: #d4af37; margin-top: 0;">Síguenos</h3>
+                <div style="display: flex; justify-content: center; gap: 2rem;">
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-facebook"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-instagram"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <p style="text-align: center; color: #888;">&copy; 2024 Studio Fit. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

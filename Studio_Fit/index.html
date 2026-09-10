@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio Fit - Tienda Digital</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/main.css">
+  <style>
+    /* Modal compartido */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--dark-bg-secondary, #0a0e27);
+      border: 2px solid var(--primary-gold, #d4af37);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+    }
+
+    .modal-content h2 {
+      color: var(--primary-gold, #d4af37);
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-confirm {
+      background: var(--primary-gold, #d4af37);
+      color: var(--dark-bg, #050813);
+    }
+
+    .btn-confirm:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-cancel {
+      background: transparent;
+      border: 2px solid var(--primary-gold, #d4af37);
+      color: var(--primary-gold, #d4af37);
+    }
+
+    .btn-cancel:hover {
+      background: var(--primary-gold, #d4af37);
+      color: var(--dark-bg, #050813);
+    }
+
+    /* Estilos para items del carrito */
+    .cart-item {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--primary-gold, #d4af37);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cart-item-info {
+      flex: 1;
+    }
+
+    .cart-item-name {
+      color: var(--primary-gold, #d4af37);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .cart-item-price {
+      color: var(--text-muted, #8a8a8a);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .cart-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .cart-item-actions button {
+      background: transparent;
+      border: 1px solid var(--primary-gold, #d4af37);
+      color: var(--primary-gold, #d4af37);
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      min-width: 28px;
+    }
+
+    .cart-item-actions button:hover {
+      background: var(--primary-gold, #d4af37);
+      color: var(--dark-bg, #050813);
+    }
+
+    .cart-item-remove {
+      background: #ff6b6b !important;
+      border-color: #ff6b6b !important;
+      color: white !important;
+      padding: 0.5rem 1.2rem !important;
+      width: 140px !important;
+      height: auto !important;
+      min-width: 140px !important;
+      font-size: 0.8rem !important;
+      font-weight: 600 !important;
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+    }
+
+    .cart-item-remove:hover {
+      background: #ff5252 !important;
+      border-color: #ff5252 !important;
+    }
+
+    .cart-empty {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted, #8a8a8a);
+    }
+
+    .cart-empty p {
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <!-- Botón Flotante del Carrito -->
+  <div id="floatingCartButton" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1500;
+    background: linear-gradient(135deg, #d4af37 0%, #f0c060 100%);
+    border: 2px solid #d4af37;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
+    transition: all 0.3s ease;
+  " onclick="app.showCart()" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 12px 32px rgba(212, 175, 55, 0.6)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 24px rgba(212, 175, 55, 0.4)'">
+    <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+      🛒
+      <span id="cartCount" style="
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ff6b6b;
+        color: white;
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+        border: 2px solid #050813;
+        display: none;
+      ">0</span>
+    </div>
+  </div>
+
+  <!-- Modal del Carrito Completo -->
+  <div id="cartModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="margin: 0;">Mi Carrito</h2>
+        <button onclick="app.closeCartModal()" style="background: none; border: none; color: var(--primary-gold, #d4af37); font-size: 1.5rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div id="cartItemsList" style="margin-bottom: 2rem;">
+        <!-- Los items se generarán aquí -->
+      </div>
+
+      <div style="border-top: 2px solid var(--primary-gold, #d4af37); padding-top: 1rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--text-muted, #8a8a8a);">
+          <span>Subtotal:</span>
+          <span id="cartSubtotal">$0</span>
+        </div>
+        <div id="cartDiscountLabel" style="display: none; flex-direction: column; gap: 0.3rem; margin-bottom: 0.5rem; color: #4CAF50; font-weight: 600;">
+          <div style="display: flex; justify-content: space-between;">
+            <span>Descuento aplicado:</span>
+            <span id="cartDiscountAmount">-$0</span>
+          </div>
+          <div id="cartDiscountInfo" style="font-size: 0.75rem; color: #888; font-weight: normal; font-style: italic;"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--primary-gold, #d4af37); font-size: 1.2rem; font-weight: 600;">
+          <span>Total:</span>
+          <span id="cartTotal">$0</span>
+        </div>
+      </div>
+
+      <!-- SECCIÓN DE CUPONES Y PROMOCIONES -->
+      <div style="border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; background: rgba(212, 175, 55, 0.05);">
+        <button onclick="app.toggleCouponsPanel()" style="
+          width: 100%;
+          padding: 0.8rem;
+          background: rgba(212, 175, 55, 0.2);
+          border: 1px solid #d4af37;
+          color: #d4af37;
+          border-radius: 6px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-bottom: 0.5rem;
+        " onmouseover="this.style.background='rgba(212, 175, 55, 0.3)'" onmouseout="this.style.background='rgba(212, 175, 55, 0.2)'">
+          🎟️ Cupones y Promociones
+        </button>
+
+        <div id="couponsPanel" style="display: none; max-height: 0; overflow: hidden; transition: all 0.3s ease;">
+          <div style="padding: 1rem 0; max-height: 300px; overflow-y: auto;">
+            <div id="couponsList" style="display: flex; flex-direction: column; gap: 0.8rem;">
+              <!-- Se cargan dinámicamente -->
+            </div>
+          </div>
+        </div>
+
+        <!-- CUPÓN APLICADO (OCULTO INICIALMENTE) -->
+        <div id="appliedCouponDiv" style="display: none; margin-top: 0.8rem; padding: 0.8rem; background: rgba(76, 175, 80, 0.2); border: 1px solid #4CAF50; border-radius: 6px; color: #4CAF50; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+          <span>✓ Cupón aplicado: <span id="appliedCouponName"></span></span>
+          <button onclick="app.removeCoupon()" style="background: #ff6b6b; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.75rem; transition: all 0.3s;">Remover</button>
+        </div>
+      </div>
+
+      <div class="modal-buttons" style="flex-direction: column;">
+        <button class="btn-confirm" onclick="app.proceedToCheckout()" style="margin-bottom: 0.5rem;">Ir a Pagar</button>
+        <button class="btn-cancel" onclick="app.closeCartModal()" style="margin-bottom: 0.5rem;">Continuar Comprando</button>
+        <button style="background: transparent; border: 2px solid #ff6b6b; color: #ff6b6b; padding: 0.75rem; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onclick="app.clearAllCart()">Vaciar Carrito</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CHECKOUT CON 3 PASOS -->
+  <div id="checkoutModal" class="modal-overlay" style="background: rgba(0, 0, 0, 0.95); display: none; justify-content: center; align-items: flex-start; z-index: 1001; padding-top: 2rem; overflow-y: auto;">
+    <div style="background: #0a0e27; border: 2px solid #d4af37; border-radius: 12px; padding: 2rem; max-width: 700px; width: 90%; box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+      <!-- HEADER CON INDICADORES DE PASOS -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; position: relative;">
+        <div style="position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: #d4af37; z-index: 1; transform: translateY(-50%);"></div>
+
+        <div style="text-align: center; z-index: 2; flex: 1;">
+          <div id="step1-indicator" style="width: 40px; height: 40px; background: #d4af37; color: #050813; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; margin: 0 auto; margin-bottom: 0.5rem;">1</div>
+          <p style="margin: 0; color: #d4af37; font-weight: 600; font-size: 0.9rem;">Dirección</p>
+        </div>
+
+        <div style="text-align: center; z-index: 2; flex: 1;">
+          <div id="step2-indicator" style="width: 40px; height: 40px; background: rgba(212, 175, 55, 0.3); color: #aaa; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; margin: 0 auto; margin-bottom: 0.5rem; border: 2px solid #555;">2</div>
+          <p style="margin: 0; color: #aaa; font-weight: 600; font-size: 0.9rem;">Pago</p>
+        </div>
+
+        <div style="text-align: center; z-index: 2; flex: 1;">
+          <div id="step3-indicator" style="width: 40px; height: 40px; background: rgba(212, 175, 55, 0.3); color: #aaa; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; margin: 0 auto; margin-bottom: 0.5rem; border: 2px solid #555;">3</div>
+          <p style="margin: 0; color: #aaa; font-weight: 600; font-size: 0.9rem;">Confirmación</p>
+        </div>
+      </div>
+
+      <!-- PASO 1: DIRECCIÓN -->
+      <div id="step1-content" style="display: block;">
+        <h2 style="color: #d4af37; margin: 0 0 1.5rem 0; font-size: 1.5rem;">Paso 1: Dirección de Envío</h2>
+
+        <form id="addressForm" style="display: flex; flex-direction: column; gap: 1rem;">
+          <div>
+            <label style="display: block; color: #d4af37; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Nombre Completo *</label>
+            <input type="text" id="fullName" placeholder="Tu nombre completo" style="width: 100%; padding: 0.8rem; background: #1a1a2e; border: 1px solid #d4af37; border-radius: 6px; color: #fff; font-size: 1rem;" />
+          </div>
+
+          <div>
+            <label style="display: block; color: #d4af37; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Email *</label>
+            <input type="email" id="checkoutEmail" placeholder="tu@email.com" style="width: 100%; padding: 0.8rem; background: #1a1a2e; border: 1px solid #d4af37; border-radius: 6px; color: #fff; font-size: 1rem;" />
+          </div>
+
+          <div>
+            <label style="display: block; color: #d4af37; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Teléfono *</label>
+            <input type="tel" id="phone" placeholder="+1 (555) 123-4567" style="width: 100%; padding: 0.8rem; background: #1a1a2e; border: 1px solid #d4af37; border-radius: 6px; color: #fff; font-size: 1rem;" />
+          </div>
+
+          <div>
+            <label style="display: block; color: #d4af37; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Calle y Número *</label>
+            <input type="text" id="street" placeholder="Ej: Calle Principal 123" style="width: 100%; padding: 0.8rem; background: #1a1a2e; border: 1px solid #d4af37; border-radius: 6px; color: #fff; font-size: 1rem;" />
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+              <label style="display: block; color: #d4af37; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Ciudad *</label>
+              <input type="text" id="city" placeholder="Ciudad" style="width: 100%; padding: 0.8rem; background: #1a1a2e; border: 1px solid #d4af37; border-radius: 6px; color: #fff; font-size: 1rem;" />
+            </div>
+            <div>
+              <label style="display: block; color: #d4af37; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Código Postal *</label>
+              <input type="text" id="zipCode" placeholder="12345" style="width: 100%; padding: 0.8rem; background: #1a1a2e; border: 1px solid #d4af37; border-radius: 6px; color: #fff; font-size: 1rem;" />
+            </div>
+          </div>
+
+          <div>
+            <label style="display: block; color: #d4af37; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">País *</label>
+            <input type="text" id="country" placeholder="País" style="width: 100%; padding: 0.8rem; background: #1a1a2e; border: 1px solid #d4af37; border-radius: 6px; color: #fff; font-size: 1rem;" />
+          </div>
+        </form>
+      </div>
+
+      <!-- PASO 2: MÉTODO DE PAGO -->
+      <div id="step2-content" style="display: none;">
+        <h2 style="color: #d4af37; margin: 0 0 1.5rem 0; font-size: 1.5rem;">Paso 2: Método de Pago</h2>
+
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <label style="display: flex; align-items: center; padding: 1rem; background: #1a1a2e; border: 2px solid #d4af37; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;" onclick="app.selectPaymentMethod('credit-card', this)">
+            <input type="radio" name="paymentMethod" value="credit-card" style="width: 20px; height: 20px; cursor: pointer; accent-color: #d4af37;" />
+            <span style="margin-left: 1rem; color: #fff; font-weight: 600; flex: 1;">💳 Tarjeta de Crédito</span>
+            <span style="color: #aaa; font-size: 0.85rem;">Visa, Mastercard, Amex</span>
+          </label>
+
+          <label style="display: flex; align-items: center; padding: 1rem; background: #1a1a2e; border: 2px solid #555; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;" onclick="app.selectPaymentMethod('debit-card', this)">
+            <input type="radio" name="paymentMethod" value="debit-card" style="width: 20px; height: 20px; cursor: pointer; accent-color: #d4af37;" />
+            <span style="margin-left: 1rem; color: #fff; font-weight: 600; flex: 1;">💰 Tarjeta de Débito</span>
+            <span style="color: #aaa; font-size: 0.85rem;">Débito bancario</span>
+          </label>
+
+          <label style="display: flex; align-items: center; padding: 1rem; background: #1a1a2e; border: 2px solid #555; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;" onclick="app.selectPaymentMethod('bank-transfer', this)">
+            <input type="radio" name="paymentMethod" value="bank-transfer" style="width: 20px; height: 20px; cursor: pointer; accent-color: #d4af37;" />
+            <span style="margin-left: 1rem; color: #fff; font-weight: 600; flex: 1;">🏦 Transferencia Bancaria</span>
+            <span style="color: #aaa; font-size: 0.85rem;">Depósito directo</span>
+          </label>
+
+          <label style="display: flex; align-items: center; padding: 1rem; background: #1a1a2e; border: 2px solid #555; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;" onclick="app.selectPaymentMethod('paypal', this)">
+            <input type="radio" name="paymentMethod" value="paypal" style="width: 20px; height: 20px; cursor: pointer; accent-color: #d4af37;" />
+            <span style="margin-left: 1rem; color: #fff; font-weight: 600; flex: 1;">🅿️ PayPal</span>
+            <span style="color: #aaa; font-size: 0.85rem;">Pago con PayPal</span>
+          </label>
+
+          <label style="display: flex; align-items: center; padding: 1rem; background: #1a1a2e; border: 2px solid #555; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;" onclick="app.selectPaymentMethod('digital-wallet', this)">
+            <input type="radio" name="paymentMethod" value="digital-wallet" style="width: 20px; height: 20px; cursor: pointer; accent-color: #d4af37;" />
+            <span style="margin-left: 1rem; color: #fff; font-weight: 600; flex: 1;">💻 Cartera Electrónica</span>
+            <span style="color: #aaa; font-size: 0.85rem;">Saldo digital disponible</span>
+          </label>
+        </div>
+
+        <!-- DETALLES TARJETA (MOSTRAR SOLO PARA TARJETAS) -->
+        <div id="cardDetailsDiv" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;">
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div>
+              <label style="display: block; color: #d4af37; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Número de Tarjeta *</label>
+              <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" style="width: 100%; padding: 0.8rem; background: #1a1a2e; border: 1px solid #d4af37; border-radius: 6px; color: #fff; font-size: 1rem;" />
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div>
+                <label style="display: block; color: #d4af37; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Vencimiento *</label>
+                <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" style="width: 100%; padding: 0.8rem; background: #1a1a2e; border: 1px solid #d4af37; border-radius: 6px; color: #fff; font-size: 1rem;" />
+              </div>
+              <div>
+                <label style="display: block; color: #d4af37; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">CVV *</label>
+                <input type="text" id="cardCvv" placeholder="123" maxlength="4" style="width: 100%; padding: 0.8rem; background: #1a1a2e; border: 1px solid #d4af37; border-radius: 6px; color: #fff; font-size: 1rem;" />
+              </div>
+            </div>
+
+            <div>
+              <label style="display: block; color: #d4af37; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Nombre en la Tarjeta *</label>
+              <input type="text" id="cardName" placeholder="JUAN MARTINEZ" style="width: 100%; padding: 0.8rem; background: #1a1a2e; border: 1px solid #d4af37; border-radius: 6px; color: #fff; font-size: 1rem;" />
+            </div>
+          </div>
+        </div>
+
+        <!-- DETALLES PAYPAL (MOSTRAR SOLO PARA PAYPAL) -->
+        <div id="paypalDetailsDiv" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px; text-align: center;">
+          <h3 style="color: #d4af37; margin-top: 0; margin-bottom: 1rem;">Escanea con PayPal</h3>
+          <img id="paypalQr" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://www.paypal.com" alt="PayPal QR Code" style="max-width: 250px; height: auto; border-radius: 8px; margin-bottom: 1rem; display: block; margin-left: auto; margin-right: auto;" />
+          <p style="color: #aaa; font-size: 0.9rem; margin: 0;">Usa tu aplicación de PayPal para escanear el código QR y completar el pago</p>
+        </div>
+
+        <!-- DETALLES TRANSFERENCIA BANCARIA (MOSTRAR SOLO PARA TRANSFERENCIA) -->
+        <div id="bankTransferDetailsDiv" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 6px;">
+          <h3 style="color: #d4af37; margin-top: 0; margin-bottom: 1rem;">📋 Datos para Transferencia Bancaria</h3>
+          <div style="background: #1a1a2e; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.8rem;">
+              <div>
+                <label style="color: #888; font-size: 0.8rem; font-weight: 600;">BANCO</label>
+                <p style="color: #d4af37; font-weight: 700; margin: 0.3rem 0; font-size: 1.1rem;">Banco Fintecnia</p>
+              </div>
+              <div>
+                <label style="color: #888; font-size: 0.8rem; font-weight: 600;">CÓDIGO SWIFT</label>
+                <p style="color: #d4af37; font-weight: 700; margin: 0.3rem 0; font-size: 1.1rem;">BFNTXCXX</p>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 0.8rem;">
+              <label style="color: #888; font-size: 0.8rem; font-weight: 600;">NÚMERO DE CUENTA</label>
+              <p style="color: #d4af37; font-weight: 700; margin: 0.3rem 0; font-size: 1.1rem; word-break: break-all;">4532 1234 5678 9010</p>
+            </div>
+
+            <div style="margin-bottom: 0.8rem;">
+              <label style="color: #888; font-size: 0.8rem; font-weight: 600;">IBAN</label>
+              <p style="color: #d4af37; font-weight: 700; margin: 0.3rem 0; font-size: 1rem; word-break: break-all;">ES91 1234 5678 9123 4567 8901</p>
+            </div>
+
+            <div style="margin-bottom: 0.8rem;">
+              <label style="color: #888; font-size: 0.8rem; font-weight: 600;">TITULAR</label>
+              <p style="color: #d4af37; font-weight: 700; margin: 0.3rem 0; font-size: 1.1rem;">Studio Fit S.A.</p>
+            </div>
+
+            <div>
+              <label style="color: #888; font-size: 0.8rem; font-weight: 600;">REFERENCIA</label>
+              <p id="bankReference" style="color: #d4af37; font-weight: 700; margin: 0.3rem 0; font-size: 1rem; word-break: break-all;"></p>
+            </div>
+          </div>
+
+          <div style="background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.3); padding: 0.8rem; border-radius: 6px; margin-bottom: 1rem;">
+            <p style="color: #ffc107; font-size: 0.9rem; margin: 0; font-weight: 600;">⚠️ Importante: Incluye la referencia en la transferencia</p>
+          </div>
+        </div>
+
+        <!-- DETALLES CARTERA ELECTRÓNICA (MOSTRAR SOLO PARA DIGITAL WALLET) -->
+        <div id="digitalWalletDetailsDiv" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(76, 175, 80, 0.1); border: 2px solid rgba(76, 175, 80, 0.4); border-radius: 6px;">
+          <h3 style="color: #4CAF50; margin-top: 0; margin-bottom: 1.5rem; font-size: 1.1rem;">💻 Cartera Electrónica</h3>
+
+          <div style="background: linear-gradient(135deg, #1a3a1a 0%, #0f2e0f 100%); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid rgba(76, 175, 80, 0.3);">
+            <p style="color: #888; font-size: 0.85rem; margin: 0 0 0.5rem 0; font-weight: 600;">SALDO DISPONIBLE</p>
+            <p style="color: #4CAF50; font-weight: 700; margin: 0; font-size: 2rem;">$<span id="walletBalance">5000.00</span></p>
+            <p style="color: #aaa; font-size: 0.8rem; margin: 0.5rem 0 0 0;">Cartera ID: WLT-JM-2024</p>
+          </div>
+
+          <div id="insufficientFundsAlert" style="display: none; background: rgba(244, 67, 54, 0.15); border: 1px solid rgba(244, 67, 54, 0.4); padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
+            <p style="color: #ff6b6b; margin: 0; font-weight: 600;">⚠️ Saldo insuficiente para completar esta compra</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- PASO 3: CONFIRMACIÓN -->
+      <div id="step3-content" style="display: none;">
+        <h2 style="color: #d4af37; margin: 0 0 1.5rem 0; font-size: 1.5rem;">Paso 3: Confirmación de Pedido</h2>
+
+        <div style="background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+          <h3 style="color: #d4af37; margin: 0 0 1rem 0; font-size: 1rem;">📦 Resumen del Pedido</h3>
+          <div id="confirmationItemsList" style="max-height: 200px; overflow-y: auto; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(212, 175, 55, 0.2);"></div>
+
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem; color: #bbb;">
+            <span>Subtotal:</span>
+            <span id="confirmationSubtotal">$0</span>
+          </div>
+          <div id="confirmationDiscountDiv" style="display: none; flex-direction: column; gap: 0.3rem; margin-bottom: 0.8rem; color: #4CAF50; font-weight: 600;">
+            <div style="display: flex; justify-content: space-between;">
+              <span>Descuento:</span>
+              <span id="confirmationDiscount">-$0</span>
+            </div>
+            <div id="confirmationDiscountInfo" style="font-size: 0.75rem; color: #888; font-weight: normal;"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(212, 175, 55, 0.3); padding-top: 1rem; font-size: 1.2rem; font-weight: 800; color: #d4af37;">
+            <span>TOTAL A PAGAR:</span>
+            <span id="confirmationTotal">$0</span>
+          </div>
+        </div>
+
+        <div style="background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+          <h3 style="color: #d4af37; margin: 0 0 1rem 0; font-size: 1rem;">📍 Dirección de Envío</h3>
+          <div id="confirmationAddressDisplay" style="color: #ddd; line-height: 1.6;">
+            <!-- Se llena dinámicamente -->
+          </div>
+        </div>
+
+        <div style="background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; padding: 1.5rem;">
+          <h3 style="color: #d4af37; margin: 0 0 1rem 0; font-size: 1rem;">💳 Método de Pago</h3>
+          <div id="confirmationPaymentDisplay" style="color: #ddd;">
+            <!-- Se llena dinámicamente -->
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTONES DE NAVEGACIÓN -->
+      <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: space-between;">
+        <button onclick="app.closeCheckout()" style="padding: 0.8rem 1.5rem; background: transparent; border: 2px solid #555; color: #aaa; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">Cancelar</button>
+
+        <div style="display: flex; gap: 1rem;">
+          <button id="prevBtn" onclick="app.previousCheckoutStep()" style="display: none; padding: 0.8rem 1.5rem; background: rgba(212, 175, 55, 0.2); border: 1px solid #d4af37; color: #d4af37; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">← Atrás</button>
+
+          <button id="nextBtn" onclick="app.nextCheckoutStep()" style="padding: 0.8rem 1.5rem; background: linear-gradient(135deg, #d4af37 0%, #f0c060 100%); color: #050813; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">Siguiente →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

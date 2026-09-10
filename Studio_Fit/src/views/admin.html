@@ -1,0 +1,911 @@
+<div class="admin-wrapper">
+  <!-- MODAL DE LOGIN ADMIN -->
+  <div id="adminLoginModal" class="admin-login-overlay">
+    <div class="admin-login-box">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="color: #d4af37; margin: 0 0 0.5rem 0; font-size: 2rem;">🔐 Panel Admin</h1>
+        <p style="color: #8a8a8a; margin: 0;">Acceso restringido</p>
+      </div>
+
+      <form id="adminLoginForm" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <label style="color: #d4af37; font-weight: 600;">Usuario</label>
+          <input type="text" id="adminUsername" placeholder="Ingresa tu usuario" style="
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #d4af37;
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+          " onfocus="this.style.background='rgba(212, 175, 55, 0.1)'; this.style.borderColor='#fff'" onblur="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.borderColor='#d4af37'">
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <label style="color: #d4af37; font-weight: 600;">Contraseña</label>
+          <input type="password" id="adminPassword" placeholder="Ingresa tu contraseña" style="
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #d4af37;
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+          " onfocus="this.style.background='rgba(212, 175, 55, 0.1)'; this.style.borderColor='#fff'" onblur="this.style.background='rgba(255, 255, 255, 0.05)'; this.style.borderColor='#d4af37'">
+        </div>
+
+        <button type="button" onclick="app.adminLogin()" style="
+          background: linear-gradient(135deg, #d4af37 0%, #f0d97c 100%);
+          color: #050813;
+          border: none;
+          padding: 1rem;
+          border-radius: 6px;
+          font-weight: 700;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          margin-top: 1rem;
+        " onmouseover="this.style.boxShadow='0 8px 20px rgba(212, 175, 55, 0.4)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+          Ingresar
+        </button>
+
+        <button type="button" onclick="app.navigateTo('home')" style="
+          background: transparent;
+          color: #d4af37;
+          border: 1px solid #d4af37;
+          padding: 1rem;
+          border-radius: 6px;
+          font-weight: 600;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        " onmouseover="this.style.background='rgba(212, 175, 55, 0.1)'" onmouseout="this.style.background='transparent'">
+          ← Regresar a la web
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MENÚ LATERAL -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-header">
+      <h2 style="color: #d4af37; margin: 0; font-size: 1.3rem;">Studio Fit</h2>
+      <p style="color: #8a8a8a; font-size: 0.85rem; margin: 0.3rem 0 0 0;">Panel Admin</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" onclick="app.switchAdminTab('dashboard'); return false;">
+        <span style="font-size: 1.3rem;">📊</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" onclick="app.switchAdminTab('productos'); return false;">
+        <span style="font-size: 1.3rem;">📦</span>
+        <span>Productos</span>
+      </a>
+      <a href="#" class="nav-item" onclick="app.switchAdminTab('pedidos'); return false;">
+        <span style="font-size: 1.3rem;">🛒</span>
+        <span>Pedidos</span>
+      </a>
+      <a href="#" class="nav-item" onclick="app.switchAdminTab('promociones'); return false;">
+        <span style="font-size: 1.3rem;">🎯</span>
+        <span>Promociones</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="#" onclick="app.navigateTo('home'); return false;" style="color: #d4af37; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+        <span>←</span> Volver a tienda
+      </a>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="admin-main">
+    <!-- DASHBOARD -->
+    <div id="dashboard-tab" class="admin-tab active">
+      <div class="admin-header">
+        <h1>📊 Dashboard</h1>
+      </div>
+
+      <!-- Cards de Resumen -->
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="card-icon">📦</div>
+          <div class="card-content">
+            <div class="card-label">Productos</div>
+            <div class="card-value">12</div>
+            <div class="card-subtitle">8 activos</div>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-icon">🛒</div>
+          <div class="card-content">
+            <div class="card-label">Pedidos</div>
+            <div class="card-value">5</div>
+            <div class="card-subtitle">Este mes</div>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-icon">💰</div>
+          <div class="card-content">
+            <div class="card-label">Ingresos</div>
+            <div class="card-value">$8,945</div>
+            <div class="card-subtitle">+12% más ingresos este mes</div>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-icon">👥</div>
+          <div class="card-content">
+            <div class="card-label">Clientes</div>
+            <div class="card-value">23</div>
+            <div class="card-subtitle">+3 nuevos</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actividad Reciente -->
+      <div class="admin-section">
+        <h2>Actividad Reciente</h2>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(212, 175, 55, 0.05); border-left: 4px solid #d4af37; border-radius: 4px;">
+            <span style="font-size: 1.5rem;">📦</span>
+            <div style="flex: 1;">
+              <div style="color: #e0e0e0; font-weight: 600;">Nuevo producto agregado</div>
+              <div style="color: #8a8a8a; font-size: 0.9rem;">Creatina Birdman - Hace 2 horas</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(212, 175, 55, 0.05); border-left: 4px solid #d4af37; border-radius: 4px;">
+            <span style="font-size: 1.5rem;">💰</span>
+            <div style="flex: 1;">
+              <div style="color: #e0e0e0; font-weight: 600;">Nuevo pedido recibido</div>
+              <div style="color: #8a8a8a; font-size: 0.9rem;">Orden #001 - Hace 1 hora</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(212, 175, 55, 0.05); border-left: 4px solid #d4af37; border-radius: 4px;">
+            <span style="font-size: 1.5rem;">👤</span>
+            <div style="flex: 1;">
+              <div style="color: #e0e0e0; font-weight: 600;">Nuevo cliente registrado</div>
+              <div style="color: #8a8a8a; font-size: 0.9rem;">Juan García - Hace 30 minutos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB PRODUCTOS -->
+    <div id="productos-tab" class="admin-tab">
+      <div class="admin-header">
+        <h1>📦 Gestión de Productos</h1>
+        <button class="btn-add-product" onclick="app.openProductForm()">+ Agregar Producto</button>
+      </div>
+
+      <!-- Tabla de Productos -->
+      <div class="admin-section">
+        <h2>Productos Registrados</h2>
+        <div class="products-table-wrapper">
+          <table class="products-table" id="productsTable">
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Categoría</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody">
+              <!-- Se llenará con JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Formulario (oculto por defecto) -->
+      <div id="productFormModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 600px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2 id="formTitle" style="margin: 0;">Agregar Producto</h2>
+            <button onclick="app.closeProductForm()" style="background: none; border: none; color: #d4af37; font-size: 1.5rem; cursor: pointer;">✕</button>
+          </div>
+
+          <form id="addProductForm" class="product-form">
+            <div class="form-group">
+              <label>Nombre del Producto</label>
+              <input type="text" id="productName" placeholder="Ej: Creatina Premium">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Precio ($)</label>
+                <input type="number" id="productPrice" placeholder="Ej: 349" min="1">
+              </div>
+              <div class="form-group">
+                <label>Categoría</label>
+                <select id="productCategory">
+                  <option value="">Seleccionar...</option>
+                  <option value="suplementos">Suplementos</option>
+                  <option value="ropa">Ropa</option>
+                  <option value="equipo">Equipo</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>URL de Imagen</label>
+              <input type="text" id="productImage" placeholder="https://...">
+            </div>
+
+            <div class="form-group">
+              <label>Descripción</label>
+              <textarea id="productDescription" placeholder="Describe el producto..." rows="3"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+              <button type="button" class="btn-add-product" onclick="app.handleAddProduct(event)">Guardar Producto</button>
+              <button type="button" class="btn" onclick="app.closeProductForm()">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB PEDIDOS -->
+    <div id="pedidos-tab" class="admin-tab">
+      <div class="admin-header">
+        <h1>🛒 Gestión de Pedidos</h1>
+        <p>Historial y seguimiento de pedidos</p>
+      </div>
+
+      <div class="admin-section">
+        <h2>Pedidos Recientes</h2>
+        <div class="products-table-wrapper">
+          <table class="products-table">
+            <thead>
+              <tr>
+                <th>Número de Orden</th>
+                <th>Cliente</th>
+                <th>Productos</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>#001</strong></td>
+                <td>Juan Martínez</td>
+                <td>Creatina Birdman (1x)</td>
+                <td><strong style="color: #d4af37;">$349</strong></td>
+                <td><span style="background: #4CAF50; color: white; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem;">Entregado</span></td>
+                <td>2025-03-05</td>
+              </tr>
+              <tr>
+                <td><strong>#002</strong></td>
+                <td>María García</td>
+                <td>Proteína Whey (2x), BCAA (1x)</td>
+                <td><strong style="color: #d4af37;">$1,297</strong></td>
+                <td><span style="background: #2196F3; color: white; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem;">Enviado</span></td>
+                <td>2025-03-04</td>
+              </tr>
+              <tr>
+                <td><strong>#003</strong></td>
+                <td>Carlos López</td>
+                <td>Playera de Compresión (1x), Short Gymshark (1x)</td>
+                <td><strong style="color: #d4af37;">$1,298</strong></td>
+                <td><span style="background: #FF9800; color: white; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem;">Pendiente</span></td>
+                <td>2025-03-03</td>
+              </tr>
+              <tr>
+                <td><strong>#004</strong></td>
+                <td>Ana Rodríguez</td>
+                <td>Straps para Levantamiento (1x), Guantes de Gimnasio (1x)</td>
+                <td><strong style="color: #d4af37;">$478</strong></td>
+                <td><span style="background: #4CAF50; color: white; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem;">Entregado</span></td>
+                <td>2025-03-02</td>
+              </tr>
+              <tr>
+                <td><strong>#005</strong></td>
+                <td>Roberto Silva</td>
+                <td>Cuerda para Saltar Profesional (3x)</td>
+                <td><strong style="color: #d4af37;">$597</strong></td>
+                <td><span style="background: #4CAF50; color: white; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem;">Entregado</span></td>
+                <td>2025-03-01</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB PROMOCIONES -->
+    <div id="promociones-tab" class="admin-tab">
+      <div class="admin-header">
+        <h1>🎯 Gestión de Promociones</h1>
+        <button class="btn-add-product" onclick="app.showAlert('info', 'Función de crear promoción disponible próximamente')">+ Crear Promoción</button>
+      </div>
+
+      <div class="admin-section">
+        <h2>Promociones Activas</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+          <!-- Promoción 1 -->
+          <div style="background: rgba(212, 175, 55, 0.08); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+              <div>
+                <h3 style="color: #d4af37; margin: 0 0 0.3rem 0;">Black Friday Especial</h3>
+                <p style="color: #8a8a8a; margin: 0; font-size: 0.85rem;">Descuento en suplementos</p>
+              </div>
+              <span style="background: #4CAF50; color: white; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">ACTIVO</span>
+            </div>
+            <div style="background: rgba(0, 0, 0, 0.2); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+              <p style="color: #e0e0e0; font-size: 0.9rem; margin: 0 0 0.5rem 0;">📝 Descripción:</p>
+              <p style="color: #8a8a8a; margin: 0; font-size: 0.85rem;">Obtén 20% de descuento en todos los suplementos comprados</p>
+              <p style="color: #e0e0e0; font-size: 0.9rem; margin: 1rem 0 0.5rem 0;">💰 Descuento: <strong style="color: #d4af37;">20%</strong></p>
+              <p style="color: #8a8a8a; margin: 0; font-size: 0.85rem;">📅 Válido hasta: 2025-03-31</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button style="flex: 1; background: #d4af37; color: #050813; border: none; padding: 0.6rem; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Editar</button>
+              <button style="flex: 1; background: #ff6b6b; color: white; border: none; padding: 0.6rem; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Eliminar</button>
+            </div>
+          </div>
+
+          <!-- Promoción 2 -->
+          <div style="background: rgba(212, 175, 55, 0.08); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+              <div>
+                <h3 style="color: #d4af37; margin: 0 0 0.3rem 0;">Compra 2 Lleva 3</h3>
+                <p style="color: #8a8a8a; margin: 0; font-size: 0.85rem;">En ropa deportiva</p>
+              </div>
+              <span style="background: #4CAF50; color: white; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">ACTIVO</span>
+            </div>
+            <div style="background: rgba(0, 0, 0, 0.2); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+              <p style="color: #e0e0e0; font-size: 0.9rem; margin: 0 0 0.5rem 0;">📝 Descripción:</p>
+              <p style="color: #8a8a8a; margin: 0; font-size: 0.85rem;">Compra 2 prendas de ropa y obtén una tercera al 50%</p>
+              <p style="color: #e0e0e0; font-size: 0.9rem; margin: 1rem 0 0.5rem 0;">💰 Descuento: <strong style="color: #d4af37;">50% en 3ra prenda</strong></p>
+              <p style="color: #8a8a8a; margin: 0; font-size: 0.85rem;">📅 Válido hasta: 2025-03-25</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button style="flex: 1; background: #d4af37; color: #050813; border: none; padding: 0.6rem; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Editar</button>
+              <button style="flex: 1; background: #ff6b6b; color: white; border: none; padding: 0.6rem; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Eliminar</button>
+            </div>
+          </div>
+
+          <!-- Promoción 3 -->
+          <div style="background: rgba(212, 175, 55, 0.08); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+              <div>
+                <h3 style="color: #d4af37; margin: 0 0 0.3rem 0;">Equipo en Oferta</h3>
+                <p style="color: #8a8a8a; margin: 0; font-size: 0.85rem;">Todo para entrenar</p>
+              </div>
+              <span style="background: #4CAF50; color: white; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">ACTIVO</span>
+            </div>
+            <div style="background: rgba(0, 0, 0, 0.2); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+              <p style="color: #e0e0e0; font-size: 0.9rem; margin: 0 0 0.5rem 0;">📝 Descripción:</p>
+              <p style="color: #8a8a8a; margin: 0; font-size: 0.85rem;">Todo el equipo de entrenamiento con descuento especial</p>
+              <p style="color: #e0e0e0; font-size: 0.9rem; margin: 1rem 0 0.5rem 0;">💰 Descuento: <strong style="color: #d4af37;">15%</strong></p>
+              <p style="color: #8a8a8a; margin: 0; font-size: 0.85rem;">📅 Válido hasta: 2025-03-20</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button style="flex: 1; background: #d4af37; color: #050813; border: none; padding: 0.6rem; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Editar</button>
+              <button style="flex: 1; background: #ff6b6b; color: white; border: none; padding: 0.6rem; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.85rem;">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-section">
+        <h2>Promociones Inactivas</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+          <!-- Promoción Inactiva -->
+          <div style="background: rgba(100, 100, 100, 0.08); border: 2px solid rgba(100, 100, 100, 0.3); border-radius: 12px; padding: 1.5rem; opacity: 0.7;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+              <div>
+                <h3 style="color: #999; margin: 0 0 0.3rem 0;">Febrero Especial</h3>
+                <p style="color: #666; margin: 0; font-size: 0.85rem;">Descuento caducado</p>
+              </div>
+              <span style="background: #888; color: white; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">INACTIVO</span>
+            </div>
+            <div style="background: rgba(0, 0, 0, 0.1); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+              <p style="color: #999; font-size: 0.9rem; margin: 0 0 0.5rem 0;">📝 Descripción:</p>
+              <p style="color: #666; margin: 0; font-size: 0.85rem;">Descuento del 25% en todos los productos</p>
+              <p style="color: #999; font-size: 0.9rem; margin: 1rem 0 0.5rem 0;">💰 Descuento: <strong>25%</strong></p>
+              <p style="color: #666; margin: 0; font-size: 0.85rem;">📅 Válido hasta: 2025-02-28</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button style="flex: 1; background: #666; color: #ccc; border: none; padding: 0.6rem; border-radius: 4px; font-weight: 600; cursor: not-allowed; font-size: 0.85rem;">Editar</button>
+              <button style="flex: 1; background: #888; color: #ccc; border: none; padding: 0.6rem; border-radius: 4px; font-weight: 600; cursor: not-allowed; font-size: 0.85rem;">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<style>
+  /* Layout Principal */
+  .admin-wrapper {
+    display: flex;
+    height: 100vh;
+    background: linear-gradient(135deg, #050813 0%, #0a0e27 100%);
+  }
+
+  /* MENÚ LATERAL */
+  .admin-sidebar {
+    width: 260px;
+    background: rgba(0, 0, 0, 0.4);
+    border-right: 2px solid rgba(212, 175, 55, 0.3);
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .sidebar-header {
+    padding: 0 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    padding-bottom: 1.5rem;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 1rem;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    color: #8a8a8a;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .nav-item:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: #d4af37;
+  }
+
+  .nav-item.active {
+    background: rgba(212, 175, 55, 0.15);
+    color: #d4af37;
+    border-left: 3px solid #d4af37;
+    padding-left: calc(1.5rem - 3px);
+  }
+
+  .sidebar-footer {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    margin-top: auto;
+  }
+
+  /* CONTENIDO PRINCIPAL */
+  .admin-main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+  }
+
+  .admin-tab {
+    display: none;
+  }
+
+  .admin-tab.active {
+    display: block;
+  }
+
+  .admin-header {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .admin-header h1 {
+    margin: 0;
+    color: #d4af37;
+    font-size: 2rem;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  }
+
+  .admin-header p {
+    color: #8a8a8a;
+    margin: 0.5rem 0 0 0;
+    font-size: 0.9rem;
+  }
+
+  /* DASHBOARD */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .dashboard-card {
+    background: rgba(212, 175, 55, 0.08);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: all 0.3s ease;
+  }
+
+  .dashboard-card:hover {
+    border-color: #d4af37;
+    background: rgba(212, 175, 55, 0.12);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+  }
+
+  .card-icon {
+    font-size: 2.5rem;
+    min-width: 60px;
+  }
+
+  .card-content {
+    flex: 1;
+  }
+
+  .card-label {
+    color: #8a8a8a;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-value {
+    color: #d4af37;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-subtitle {
+    color: #666;
+    font-size: 0.85rem;
+  }
+
+  /* ADMIN SECTION */
+  .admin-section {
+    background: rgba(212, 175, 55, 0.05);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .admin-section h2 {
+    color: #d4af37;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  /* TABLA DE PRODUCTOS */
+  .products-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .products-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #e0e0e0;
+  }
+
+  .products-table thead {
+    background: rgba(212, 175, 55, 0.1);
+    border-bottom: 2px solid #d4af37;
+  }
+
+  .products-table th {
+    padding: 1rem;
+    text-align: left;
+    color: #d4af37;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .products-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  }
+
+  .products-table tbody tr:hover {
+    background: rgba(212, 175, 55, 0.05);
+  }
+
+  .table-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid #d4af37;
+  }
+
+  .table-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn-table {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-edit {
+    background: #d4af37;
+    color: #050813;
+  }
+
+  .btn-edit:hover {
+    background: #f0d97c;
+    transform: scale(1.05);
+  }
+
+  .btn-delete {
+    background: #ff6b6b;
+    color: white;
+  }
+
+  .btn-delete:hover {
+    background: #ff5252;
+  }
+
+  /* FORMS */
+  .product-form {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .form-group label {
+    color: #d4af37;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #d4af37;
+    border-radius: 6px;
+    padding: 0.75rem;
+    color: #e0e0e0;
+    font-family: inherit;
+    transition: all 0.3s ease;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #fff;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+  }
+
+  /* BOTONES */
+  .btn-add-product {
+    background: linear-gradient(135deg, #d4af37 0%, #f0d97c 100%);
+    color: #050813;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .btn-add-product:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+  }
+
+  .btn {
+    background: rgba(212, 175, 55, 0.2);
+    color: #d4af37;
+    border: 1px solid #d4af37;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn:hover {
+    background: rgba(212, 175, 55, 0.3);
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .modal-overlay.active,
+  .modal-overlay[style*="display: flex"] {
+    display: flex !important;
+  }
+
+  .modal-content {
+    background: linear-gradient(135deg, #0a0e27 0%, #050813 100%);
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 968px) {
+    .admin-wrapper {
+      flex-direction: column;
+    }
+
+    .admin-sidebar {
+      width: 100%;
+      height: auto;
+      border-right: none;
+      border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .sidebar-nav {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .nav-item {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .dashboard-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .admin-sidebar {
+      padding: 1rem 0;
+    }
+
+    .sidebar-header {
+      padding: 0 1rem;
+    }
+
+    .admin-main {
+      padding: 1rem;
+    }
+
+    .admin-header {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .admin-header h1 {
+      font-size: 1.5rem;
+    }
+
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .products-table {
+      font-size: 0.85rem;
+    }
+
+    .products-table th,
+    .products-table td {
+      padding: 0.7rem;
+    }
+  }
+
+  /* ADMIN LOGIN MODAL */
+  .admin-login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+  }
+
+  .admin-login-box {
+    background: linear-gradient(135deg, #0a0e27 0%, #050813 100%);
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    padding: 2.5rem;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 
+      0 0 40px rgba(212, 175, 55, 0.3),
+      0 0 80px rgba(212, 175, 55, 0.1);
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .admin-login-box input::placeholder {
+    color: #666;
+  }
+
+  .admin-login-box input:focus::placeholder {
+    color: #888;
+  }
+
+  .admin-login-overlay.hidden {
+    display: none;
+  }
+</style>

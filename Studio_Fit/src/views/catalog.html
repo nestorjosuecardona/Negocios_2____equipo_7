@@ -1,0 +1,409 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Fit - Catálogo</title>
+    <link rel="stylesheet" href="/src/styles/variables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header style="border-bottom: 1px solid #d4af37; padding: 1rem 0;">
+        <div class="header-container" style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
+            <a class="logo" onclick="app.navigateTo('home')" style="cursor: pointer; color: #d4af37; font-size: 1.5rem; font-weight: bold; text-decoration: none;">Studio Fit</a>
+            <nav>
+                <ul style="list-style: none; display: flex; gap: 2rem; margin: 0; padding: 0; flex-wrap: wrap; font-size: 0.95rem;">
+                    <li><a href="#" onclick="app.navigateTo('catalog'); return false;" style="color: white; text-decoration: none;">Catálogo</a></li>
+                    <li><a href="#" onclick="app.navigateTo('community'); return false;" style="color: white; text-decoration: none;">Comunidad</a></li>
+                    <li><a href="#" onclick="app.navigateTo('publish-product'); return false;" style="color: white; text-decoration: none;">Publicar</a></li>
+                    <li><a href="#" onclick="app.navigateTo('about'); return false;" style="color: white; text-decoration: none;">Nosotros</a></li>
+                    <li><a href="#" onclick="app.navigateTo('classes'); return false;" style="color: white; text-decoration: none;">Clases</a></li>
+                    <li><a href="#" onclick="app.navigateTo('contact'); return false;" style="color: white; text-decoration: none;">Contacto</a></li>
+                    <li><a href="#" onclick="app.navigateTo('admin'); return false;" style="color: #d4af37; text-decoration: none; font-weight: 600; border: 1px solid #d4af37; padding: 0.4rem 0.8rem; border-radius: 4px;">Admin</a></li>
+                    <li><a href="#" id="profile-link" onclick="app.navigateTo('login'); return false;" style="color: white; text-decoration: none;">Iniciar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="flex: 1;">
+        <section style="display: flex; align-items: center; justify-content: center; gap: 3rem; max-width: 1400px; margin: 2rem auto; padding: 0 2rem;">
+            <!-- Imagen Principal -->
+            <div class="hero" style="background-image: url('/imagen/productosPortada.png'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 500px; width: 60%; border: 2px solid #d4af37; border-radius: 15px; flex-shrink: 0;">
+            </div>
+
+            <!-- Botones al lado de la imagen -->
+            <div style="display: flex; flex-direction: column; gap: 2rem; width: 30%; flex-shrink: 0;">
+                <button onclick="app.navigateTo('showcase')" style="
+                    background: linear-gradient(135deg, #d4af37 0%, #f0c060 100%);
+                    color: #050813;
+                    padding: 1.5rem 2rem;
+                    border: none;
+                    border-radius: 8px;
+                    font-weight: 700;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+                    text-align: center;
+                " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 35px rgba(212, 175, 55, 0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(212, 175, 55, 0.3)'">
+                    ⏰ VER OFERTA DE TIEMPO LIMITADO
+                </button>
+
+                <button onclick="app.navigateTo('auction')" style="
+                    background: linear-gradient(135deg, #ff9800 0%, #ffb74d 100%);
+                    color: #050813;
+                    padding: 1.5rem 2rem;
+                    border: none;
+                    border-radius: 8px;
+                    font-weight: 700;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 8px 25px rgba(255, 152, 0, 0.3);
+                    text-align: center;
+                " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 35px rgba(255, 152, 0, 0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(255, 152, 0, 0.3)'">
+                    🔨 PARTICIPAR EN SUBASTA
+                </button>
+            </div>
+        </section>
+       
+        <section style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+            <!-- FILTRO DE CATEGORÍAS -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; justify-content: center; flex-wrap: wrap;">
+                <button class="filter-btn active" data-filter="todos" onclick="filterProducts('todos')">
+                    Todos
+                </button>
+                <button class="filter-btn" data-filter="suplementos" onclick="filterProducts('suplementos')">
+                    Suplementos
+                </button>
+                <button class="filter-btn" data-filter="ropa" onclick="filterProducts('ropa')">
+                    Ropa
+                </button>
+                <button class="filter-btn" data-filter="equipo" onclick="filterProducts('equipo')">
+                    Equipo de Entreno
+                </button>
+            </div>
+
+            <div class="products-grid" id="catalogContainer">
+                <!-- Creatina Birdman -->
+                <div class="product-card" data-category="suplementos" style="position: relative; background: var(--dark-bg-secondary); border: 2px solid var(--primary-gold); border-radius: 12px; overflow: hidden; transition: all 0.3s ease;">
+                    <div style="position: absolute; top: 10px; right: 10px; background: #ff6b6b; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; z-index: 10;">En oferta</div>
+                    <div style="width: 100%; height: 250px; overflow: hidden; background: rgba(212, 175, 55, 0.1);">
+                        <img src="https://imgs.search.brave.com/PMGO5PGxkriGhN-scgM6hBhrDOWy7HStz-V5NkP9yTQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tdXRy/aS5teC9jZG4vc2hv/cC9wcm9kdWN0cy9i/aXJkbWFuLXBlcmZv/cm1hbmNlLWNyZWF0/aW5hLW1vbm9oaWRy/YXRhZGEtNDUwLWdy/LTI4NTcwNjA3NDUy/MjQ3XzkwMHhfZjM1/YzI4ODQtYzlhYi00/ZTc0LWE0NmEtMjEx/Y2U2NGNmNTI0LnBu/Zz92PTE2NzgyOTk2/OTUmd2lkdGg9MTk0/Ng" alt="Creatina Birdman" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: var(--primary-gold); margin-bottom: 0.5rem;">Creatina Birdman</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Suplemento de creatina monohidrato pura para aumentar fuerza y resistencia muscular</p>
+                        <p style="color: var(--primary-gold); font-size: 1.5rem; margin-bottom: 1rem;">$349</p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.navigateTo('product', 1)">Ver Detalle</button>
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.openAddToCartModal(1, 'Creatina Birdman')">Carrito</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proteína Whey -->
+                <div class="product-card" data-category="suplementos" style="background: var(--dark-bg-secondary); border: 2px solid var(--primary-gold); border-radius: 12px; overflow: hidden; transition: all 0.3s ease;">
+                    <div style="width: 100%; height: 250px; overflow: hidden; background: rgba(212, 175, 55, 0.1);">
+                        <img src="https://imgs.search.brave.com/Ku4KRXqmYQGQwPXvPh84QlzVGQugqOYVc3lhU2gekSk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9OUV9OUF82/MTQ5OTItTUxBOTk1/NzA3NDgxNzhfMTIy/MDI1LU8ud2VicA" alt="Proteína Whey" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: var(--primary-gold); margin-bottom: 0.5rem;">Proteína Whey</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Proteína de suero de alta calidad, 25g por porción, ideal para recuperación post-entrenamiento</p>
+                        <p style="color: var(--primary-gold); font-size: 1.5rem; margin-bottom: 1rem;">$499</p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.navigateTo('product', 2)">Ver Detalle</button>
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.openAddToCartModal(2, 'Proteína Whey')">Carrito</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BCAA -->
+                <div class="product-card" data-category="suplementos" style="position: relative; background: var(--dark-bg-secondary); border: 2px solid var(--primary-gold); border-radius: 12px; overflow: hidden; transition: all 0.3s ease;">
+                    <div style="position: absolute; top: 10px; right: 10px; background: #ff6b6b; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; z-index: 10;">En oferta</div>
+                    <div style="width: 100%; height: 250px; overflow: hidden; background: rgba(212, 175, 55, 0.1);">
+                        <img src="https://imgs.search.brave.com/rE5tz12nyU8wJq_BFPa76IEEYawMOmgyFM8q5yNkpn0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/dGlnZXJmaXRuZXNz/LmNvbS9jZG4vc2hv/cC9maWxlcy9CQ0FB/U3RyYXdiZXJyeUtp/d2kzMF80MzR4NTY5/LnBuZz92PTE3NjE2/NjgwMjA" alt="BCAA" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: var(--primary-gold); margin-bottom: 0.5rem;">BCAA</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Aminoácidos ramificados para recuperación muscular, resistencia y prevención de fatiga</p>
+                        <p style="color: var(--primary-gold); font-size: 1.5rem; margin-bottom: 1rem;">$299</p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.navigateTo('product', 3)">Ver Detalle</button>
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.openAddToCartModal(3, 'BCAA')">Carrito</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Playera de Compresión -->
+                <div class="product-card" data-category="ropa" style="background: var(--dark-bg-secondary); border: 2px solid var(--primary-gold); border-radius: 12px; overflow: hidden; transition: all 0.3s ease;">
+                    <div style="width: 100%; height: 250px; overflow: hidden; background: rgba(212, 175, 55, 0.1);">
+                        <img src="https://imgs.search.brave.com/N9dtQ59O05P7CWNeFrDGqWt55C6VdHUTxgpRDTKeLfw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzExLzU2LzE0LzE4/LzM2MF9GXzExNTYx/NDE4MDVfQWhHVHJi/YVc0ZEV2ZVRaU0Qw/cWJIUWl4NnpVazQ0/WEcuanBn" alt="Playera de Compresi�n" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: var(--primary-gold); margin-bottom: 0.5rem;">Playera de Compresión</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Prenda de compresión premium para mejor rendimiento, circulación y recuperación muscular</p>
+                        <p style="color: var(--primary-gold); font-size: 1.5rem; margin-bottom: 1rem;">$399</p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.navigateTo('product', 4)">Ver Detalle</button>
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.openAddToCartModal(4, 'Playera de Compresión')">Carrito</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Straps para Levantamiento -->
+                <div class="product-card" data-category="equipo" style="background: var(--dark-bg-secondary); border: 2px solid var(--primary-gold); border-radius: 12px; overflow: hidden; transition: all 0.3s ease;">
+                    <div style="width: 100%; height: 250px; overflow: hidden; background: rgba(212, 175, 55, 0.1);">
+                        <img src="https://imgs.search.brave.com/wUHZtFOvvro-2YPXcdOVe8Dukp5S_Zw57Nmkdpt7w4s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/ODF3MGkwcXZUdUwu/anBn" alt="Straps para Levantamiento" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: var(--primary-gold); margin-bottom: 0.5rem;">Straps para Levantamiento</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Correas profesionales para levantamiento de pesas con máximo agarre y durabilidad</p>
+                        <p style="color: var(--primary-gold); font-size: 1.5rem; margin-bottom: 1rem;">$249</p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.navigateTo('product', 5)">Ver Detalle</button>
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.openAddToCartModal(5, 'Straps para Levantamiento')">Carrito</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cuerda para Saltar Profesional -->
+                <div class="product-card" data-category="equipo" style="background: var(--dark-bg-secondary); border: 2px solid var(--primary-gold); border-radius: 12px; overflow: hidden; transition: all 0.3s ease;">
+                    <div style="width: 100%; height: 250px; overflow: hidden; background: rgba(212, 175, 55, 0.1);">
+                        <img src="https://imgs.search.brave.com/_A__i6HjbUmF3hhoFDnhZJP4-Ssx3uoHZZCRLOUxC-4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9RX05QXzJY/Xzk1NzA3Mi1NTE05/MTg5MjMzOTc1N18w/OTIwMjUtVi1jdWVy/ZGEtcGFyYS1zYWx0/YXItY3Jvc3NmaXQt/Ym94LWd5bS1saWdl/cmEtcHJvZmVzaW9u/YWwtMzYwLndlYnA" alt="Cuerda para Saltar" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: var(--primary-gold); margin-bottom: 0.5rem;">Cuerda para Saltar Profesional</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Cuerda de saltar profesional para cardio, agilidad y entrenamiento de alta intensidad</p>
+                        <p style="color: var(--primary-gold); font-size: 1.5rem; margin-bottom: 1rem;">$199</p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.navigateTo('product', 6)">Ver Detalle</button>
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.openAddToCartModal(6, 'Cuerda para Saltar Profesional')">Carrito</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guantes de Gimnasio -->
+                <div class="product-card" data-category="equipo" style="position: relative; background: var(--dark-bg-secondary); border: 2px solid var(--primary-gold); border-radius: 12px; overflow: hidden; transition: all 0.3s ease;">
+                    <div style="position: absolute; top: 10px; right: 10px; background: #4CAF50; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; z-index: 10;">Nuevo</div>
+                    <div style="width: 100%; height: 250px; overflow: hidden; background: rgba(212, 175, 55, 0.1);">
+                        <img src="https://imgs.search.brave.com/2bekbSTt5f57jXS4ZPqmeMUG6BhPcBOggMqWkTbGrmc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9RX05QXzJY/Xzc1MjgyNy1DQlQ3/MzExNzIwMDk5MV8x/MTIwMjMtVi1ndWFu/dGVzLWRlLWd5bS1j/b24tbXVuZXF1ZXJh/c2d1YW50ZXMtZ2lt/bmFzaW8tcGFyYS1o/b21icmVzLndlYnA" alt="Guantes de Gimnasio" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: var(--primary-gold); margin-bottom: 0.5rem;">Guantes de Gimnasio</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Guantes profesionales de gimnasio con muñequera, agarre seguro y máxima comodidad</p>
+                        <p style="color: var(--primary-gold); font-size: 1.5rem; margin-bottom: 1rem;">$229</p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.navigateTo('product', 7)">Ver Detalle</button>
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.openAddToCartModal(7, 'Guantes de Gimnasio')">Carrito</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Short Gymshark -->
+                <div class="product-card" data-category="ropa" style="position: relative; background: var(--dark-bg-secondary); border: 2px solid var(--primary-gold); border-radius: 12px; overflow: hidden; transition: all 0.3s ease;">
+                    <div style="position: absolute; top: 10px; right: 10px; background: #4CAF50; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; z-index: 10;">Nuevo</div>
+                    <div style="width: 100%; height: 250px; overflow: hidden; background: rgba(212, 175, 55, 0.1);">
+                        <img src="https://dcdn-us.mitiendanube.com/stores/006/140/334/products/photoroom_20250701_145645-85b65920b0c6a45b6117513998623649-1024-1024.webp" alt="Short Gymshark" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="color: var(--primary-gold); margin-bottom: 0.5rem;">Short Gymshark</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Short de entrenamiento Gymshark de excelente calidad con material transpirable</p>
+                        <p style="color: var(--primary-gold); font-size: 1.5rem; margin-bottom: 1rem;">$899</p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.navigateTo('product', 8)">Ver Detalle</button>
+                            <button class="btn btn-primary" style="flex: 1; font-size: 0.9rem;" onclick="app.openAddToCartModal(8, 'Short Gymshark')">Carrito</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: linear-gradient(135deg, #050813 0%, #0a0e27 100%); border-top: 2px solid #d4af37; padding: 2rem; margin-top: 3rem;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h3 style="color: #d4af37; margin-top: 0;">Síguenos</h3>
+                <div style="display: flex; justify-content: center; gap: 2rem;">
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-facebook"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-instagram"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <p style="text-align: center; color: #888;">&copy; 2024 Studio Fit. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <style>
+        .product-card {
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--primary-gold);
+            background: transparent;
+            color: var(--primary-gold);
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .filter-btn:hover {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            transform: scale(1.05);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+        }
+
+        .product-card.hidden {
+            display: none;
+        }
+
+        /* Modal de agregar al carrito */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--dark-bg-secondary);
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+        }
+
+        .modal-content h2 {
+            color: var(--primary-gold);
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .quantity-selector button {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary-gold);
+            background: transparent;
+            color: var(--primary-gold);
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-selector button:hover {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+        }
+
+        .quantity-display {
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            font-weight: 600;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-buttons .btn-confirm {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+        }
+
+        .modal-buttons .btn-confirm:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .modal-buttons .btn-cancel {
+            background: transparent;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+        }
+
+        .modal-buttons .btn-cancel:hover {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+        }
+    </style>
+
+    <!-- Modal para agregar al carrito -->
+    <div id="addToCartModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modalProductName">Producto</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Selecciona la cantidad:</p>
+
+            <div class="quantity-selector">
+                <button onclick="app.decreaseQuantity()">−</button>
+                <div class="quantity-display" id="quantityDisplay">1</div>
+                <button onclick="app.increaseQuantity()">+</button>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-confirm" onclick="app.confirmAddToCart()">Agregar al Carrito</button>
+                <button class="btn-cancel" onclick="app.closeAddToCartModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

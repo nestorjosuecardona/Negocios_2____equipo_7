@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Fit</title>
+    <link rel="stylesheet" href="/src/styles/variables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header style="border-bottom: 1px solid #d4af37; padding: 1rem 0;">
+        <div class="header-container" style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
+            <a class="logo" onclick="app.navigateTo('home')" style="cursor: pointer; color: #d4af37; font-size: 1.5rem; font-weight: bold; text-decoration: none;">Studio Fit</a>
+            <nav>
+                <ul style="list-style: none; display: flex; gap: 2rem; margin: 0; padding: 0; flex-wrap: wrap; font-size: 0.95rem;">
+                    <li><a href="#" onclick="app.navigateTo('catalog'); return false;" style="color: white; text-decoration: none;">Catálogo</a></li>
+                    <li><a href="#" onclick="app.navigateTo('community'); return false;" style="color: white; text-decoration: none;">Comunidad</a></li>
+                    <li><a href="#" onclick="app.navigateTo('publish-product'); return false;" style="color: white; text-decoration: none;">Publicar</a></li>
+                    <li><a href="#" onclick="app.navigateTo('about'); return false;" style="color: white; text-decoration: none;">Nosotros</a></li>
+                    <li><a href="#" onclick="app.navigateTo('classes'); return false;" style="color: white; text-decoration: none;">Clases</a></li>
+                    <li><a href="#" onclick="app.navigateTo('contact'); return false;" style="color: white; text-decoration: none;">Contacto</a></li>
+                    <li><a href="#" onclick="app.navigateTo('admin'); return false;" style="color: #d4af37; text-decoration: none; font-weight: 600; border: 1px solid #d4af37; padding: 0.4rem 0.8rem; border-radius: 4px;">Admin</a></li>
+                    <li><a href="#" id="profile-link" onclick="app.navigateTo('login'); return false;" style="color: white; text-decoration: none;">Iniciar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="display: flex; flex-direction: column; min-height: 80vh; background-image: url('/imagen/fondoLogin.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <section class="hero" style="background: var(--dark-bg-secondary); border: 2px solid var(--primary-gold); border-radius: 8px; padding: 2rem; margin: 2rem auto; max-width: 600px;">
+            <h1>Crear Cuenta</h1>
+            <p>Únete a Studio Fit y comienza tu viaje fitness</p>
+        </section>
+
+        <form onsubmit="app.handleRegister(event)" style="background: var(--dark-bg-secondary); padding: 2rem; border-radius: 8px; max-width: 500px; margin: 0 auto;">
+            <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" id="registerName" placeholder="Tu nombre completo">
+            </div>
+            <div class="form-group">
+                <label>Correo Electrónico</label>
+                <input type="text" id="registerEmail" placeholder="tu@email.com">
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="registerPassword" placeholder="Crea una contraseña">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">Registrarme</button>
+            <p style="text-align: center; color: var(--color-gray);">
+                ¿Ya tienes cuenta? <a onclick="app.navigateTo('login')" style="color: var(--color-gold); cursor: pointer; font-weight: bold;">Inicia sesión aquí</a>
+            </p>
+        </form>
+    </main>
+
+    <footer style="background: linear-gradient(135deg, #050813 0%, #0a0e27 100%); border-top: 2px solid #d4af37; padding: 2rem; margin-top: 3rem;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h3 style="color: #d4af37; margin-top: 0;">Síguenos</h3>
+                <div style="display: flex; justify-content: center; gap: 2rem;">
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-facebook"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-instagram"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <p style="text-align: center; color: #888;">&copy; 2024 Studio Fit. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+:root {
+  /* ========== COLORES PRINCIPALES ========== */
+  --primary-gold: #d4af37;
+  --primary-gold-light: #e6c563;
+  --primary-gold-shadow: rgba(212, 175, 55, 0.3);
+  --primary-gold-shadow-light: rgba(212, 175, 55, 0.15);
+  --primary-gold-shadow-medium: rgba(212, 175, 55, 0.25);
+  --primary-gold-border: rgba(212, 175, 55, 0.2);
+  
+  /* ========== COLORES DE FONDO ========== */
+  --dark-bg-primary: #050813;
+  --dark-bg-secondary: #0a0e27;
+  --dark-overlay: rgba(0, 0, 0, 0.3);
+  
+  /* ========== COLORES DE TEXTO ========== */
+  --text-muted: #8a8a8a;
+}

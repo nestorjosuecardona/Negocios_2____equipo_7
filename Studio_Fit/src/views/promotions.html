@@ -1,0 +1,183 @@
+<header style="border-bottom: 1px solid #d4af37; padding: 1rem 0;">
+  <div class="header-container" style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
+    <a class="logo" onclick="app.navigateTo('home')" style="cursor: pointer; color: #d4af37; font-size: 1.5rem; font-weight: bold; text-decoration: none;">Studio Fit</a>
+    <nav>
+      <ul style="list-style: none; display: flex; gap: 2rem; margin: 0; padding: 0; flex-wrap: wrap; font-size: 0.95rem;">
+        <li><a href="#" onclick="app.navigateTo('catalog'); return false;" style="color: white; text-decoration: none;">Catálogo</a></li>
+        <li><a href="#" onclick="app.navigateTo('community'); return false;" style="color: white; text-decoration: none;">Comunidad</a></li>
+        <li><a href="#" onclick="app.navigateTo('publish-product'); return false;" style="color: white; text-decoration: none;">Publicar</a></li>
+        <li><a href="#" onclick="app.navigateTo('about'); return false;" style="color: white; text-decoration: none;">Nosotros</a></li>
+        <li><a href="#" onclick="app.navigateTo('classes'); return false;" style="color: white; text-decoration: none;">Clases</a></li>
+        <li><a href="#" onclick="app.navigateTo('contact'); return false;" style="color: white; text-decoration: none;">Contacto</a></li>
+        <li><a href="#" onclick="app.navigateTo('admin'); return false;" style="color: #d4af37; text-decoration: none; font-weight: 600; border: 1px solid #d4af37; padding: 0.4rem 0.8rem; border-radius: 4px;">Admin</a></li>
+        <li><a href="#" id="profile-link" onclick="app.navigateTo('login'); return false;" style="color: white; text-decoration: none;">Iniciar Sesión</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="promotions-container">
+  <div class="promotions-header">
+    <h1>🎯 Promociones Activas</h1>
+    <p>Aprovecha nuestras mejores ofertas</p>
+  </div>
+
+  <div class="promo-grid">
+    <!-- Las promociones se cargan dinámicamente -->
+  </div>
+
+  <div class="promo-footer">
+    <h2>¿Cómo usar un código de descuento?</h2>
+    <div class="promo-apply-section">
+      <input type="text" id="promoCode" placeholder="Ingresa tu código de descuento aquí" class="promo-input">
+      <button onclick="app.applyPromoCode()" class="btn-apply-promo">Aplicar Descuento</button>
+    </div>
+    <div id="promoResult" style="display: none; margin-top: 1rem; padding: 1rem; border-radius: 8px; background: rgba(76, 175, 80, 0.2); border: 1px solid #4CAF50; color: #4CAF50; text-align: center; font-weight: 600;"></div>
+  </div>
+</div>
+
+<style>
+.promotions-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.promotions-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #fff;
+}
+
+.promotions-header h1 {
+  font-size: 2.5rem;
+  color: #d4af37;
+  margin: 0 0 0.5rem 0;
+}
+
+.promotions-header p {
+  font-size: 1.1rem;
+  color: #8a8a8a;
+}
+
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.promo-card {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border: 2px solid #d4af37;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.promo-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+  border-color: #f0c060;
+}
+
+.promo-badge {
+  display: inline-block;
+  background: #d4af37;
+  color: #050813;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.promo-discount {
+  font-size: 3rem;
+  color: #d4af37;
+  font-weight: 700;
+  margin: 1rem 0;
+}
+
+.promo-description {
+  font-size: 1rem;
+  color: #e0e0e0;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.promo-expiry {
+  font-size: 0.9rem;
+  color: #8a8a8a;
+  margin-bottom: 1rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  padding-top: 1rem;
+}
+
+.promo-code {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px dashed #d4af37;
+  padding: 0.8rem;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 1.2rem;
+  color: #d4af37;
+  font-weight: 700;
+  word-break: break-all;
+}
+
+.promo-footer {
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.promo-footer h2 {
+  color: #d4af37;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.promo-apply-section {
+  display: flex;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.promo-input {
+  flex: 1;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #d4af37;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.promo-input::placeholder {
+  color: #8a8a8a;
+}
+
+.btn-apply-promo {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #d4af37 0%, #f0c060 100%);
+  color: #050813;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-apply-promo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+</style>

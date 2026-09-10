@@ -1,0 +1,156 @@
+<!-- Dashboard - Panel de navegación después del login -->
+<header style="border-bottom: 1px solid #d4af37; padding: 1rem 0; background-color: #050813;">
+  <div class="header-container" style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
+    <a class="logo" onclick="app.navigateTo('home')" style="cursor: pointer; color: #d4af37; font-size: 1.5rem; font-weight: bold; text-decoration: none;">Studio Fit</a>
+    <nav>
+      <ul style="list-style: none; display: flex; gap: 2rem; margin: 0; padding: 0; flex-wrap: wrap; font-size: 0.95rem;">
+        <li><a href="#" onclick="app.navigateTo('catalog'); return false;" style="color: white; text-decoration: none;">Catálogo</a></li>
+        <li><a href="#" onclick="app.navigateTo('community'); return false;" style="color: white; text-decoration: none;">Comunidad</a></li>
+        <li><a href="#" onclick="app.navigateTo('about'); return false;" style="color: white; text-decoration: none;">Nosotros</a></li>
+        <li><a href="#" onclick="app.navigateTo('classes'); return false;" style="color: white; text-decoration: none;">Clases</a></li>
+        <li><a href="#" onclick="app.navigateTo('contact'); return false;" style="color: white; text-decoration: none;">Contacto</a></li>
+        <li><a href="#" onclick="app.navigateTo('admin'); return false;" style="color: #d4af37; text-decoration: none; font-weight: 600; border: 1px solid #d4af37; padding: 0.4rem 0.8rem; border-radius: 4px;">Admin</a></li>
+        <li><a href="#" onclick="app.handleLogout(); return false;" style="color: #e74c3c; font-weight: bold;">Cerrar Sesión</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main style="min-height: 100vh; background: linear-gradient(135deg, #050813 0%, #0a0e27 100%); padding: 4rem 2rem;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    
+    <!-- Bienvenida -->
+    <div style="text-align: center; margin-bottom: 4rem;">
+      <h1 style="color: #d4af37; font-size: 3.5rem; margin: 0 0 1rem 0; font-weight: 900; letter-spacing: 2px;">¡BIENVENIDO!</h1>
+      <p style="color: #aaa; font-size: 1.3rem; margin: 0;" id="dashboardUserName">Juan Martinez</p>
+      <p style="color: #888; font-size: 0.95rem; margin-top: 0.5rem;">¿Qué deseas hacer hoy?</p>
+    </div>
+
+    <!-- Tarjetas de Navegación -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+      
+      <!-- Publicar Producto -->
+      <div style="background: rgba(212, 175, 55, 0.1); border: 2px solid #d4af37; border-radius: 15px; padding: 2rem; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;" 
+           onclick="app.navigateTo('publish-product')" 
+           onmouseover="this.style.background='rgba(212, 175, 55, 0.15)'; this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 30px rgba(212, 175, 55, 0.3)'"
+           onmouseout="this.style.background='rgba(212, 175, 55, 0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+        
+        <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: rgba(212, 175, 55, 0.2); border-radius: 50%; opacity: 0.5;"></div>
+        
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 4rem; margin-bottom: 1rem; text-align: center;">📤</div>
+          <h2 style="color: #d4af37; margin: 0 0 1rem 0; font-size: 1.8rem; font-weight: 800;">Publicar Producto</h2>
+          <p style="color: #ccc; margin: 0; line-height: 1.6; font-size: 0.95rem;">
+            Comparte tu producto, equipo de fitness o servicio con la comunidad Studio Fit. Llega a miles de usuarios interesados.
+          </p>
+          <div style="margin-top: 1.5rem; display: flex; align-items: center; gap: 0.5rem; color: #d4af37; font-weight: 600; font-size: 0.9rem;">
+            Ir a publicar <span style="font-size: 1.2rem;">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mis Publicaciones -->
+      <div style="background: rgba(76, 175, 80, 0.1); border: 2px solid #4CAF50; border-radius: 15px; padding: 2rem; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;" 
+           onclick="app.navigateTo('my-publications')" 
+           onmouseover="this.style.background='rgba(76, 175, 80, 0.15)'; this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 30px rgba(76, 175, 80, 0.3)'"
+           onmouseout="this.style.background='rgba(76, 175, 80, 0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+        
+        <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: rgba(76, 175, 80, 0.2); border-radius: 50%; opacity: 0.5;"></div>
+        
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 4rem; margin-bottom: 1rem; text-align: center;">📋</div>
+          <h2 style="color: #4CAF50; margin: 0 0 1rem 0; font-size: 1.8rem; font-weight: 800;">Mis Publicaciones</h2>
+          <p style="color: #ccc; margin: 0; line-height: 1.6; font-size: 0.95rem;">
+            Administra todos tus productos publicados. Edita, elimina o actualiza el estado de tus anuncios y consulta el desempeño.
+          </p>
+          <div style="margin-top: 1.5rem; display: flex; align-items: center; gap: 0.5rem; color: #4CAF50; font-weight: 600; font-size: 0.9rem;">
+            Ver mis publicaciones <span style="font-size: 1.2rem;">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comunidad -->
+      <div style="background: rgba(244, 67, 54, 0.1); border: 2px solid #f44336; border-radius: 15px; padding: 2rem; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;" 
+           onclick="app.navigateTo('community')" 
+           onmouseover="this.style.background='rgba(244, 67, 54, 0.15)'; this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 30px rgba(244, 67, 54, 0.3)'"
+           onmouseout="this.style.background='rgba(244, 67, 54, 0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+
+        <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: rgba(244, 67, 54, 0.2); border-radius: 50%; opacity: 0.5;"></div>
+
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 4rem; margin-bottom: 1rem; text-align: center;">👥</div>
+          <h2 style="color: #f44336; margin: 0 0 1rem 0; font-size: 1.8rem; font-weight: 800;">Comunidad</h2>
+          <p style="color: #ccc; margin: 0; line-height: 1.6; font-size: 0.95rem;">
+            Conecta con otros usuarios, comparte experiencias, comenta en publicaciones y participa en la conversación de la comunidad.
+          </p>
+          <div style="margin-top: 1.5rem; display: flex; align-items: center; gap: 0.5rem; color: #f44336; font-weight: 600; font-size: 0.9rem;">
+            Ir a comunidad <span style="font-size: 1.2rem;">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Historial de Compras -->
+      <div style="background: rgba(33, 150, 243, 0.1); border: 2px solid #2196F3; border-radius: 15px; padding: 2rem; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;" 
+           onclick="app.showPurchaseHistory()" 
+           onmouseover="this.style.background='rgba(33, 150, 243, 0.15)'; this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 30px rgba(33, 150, 243, 0.3)'"
+           onmouseout="this.style.background='rgba(33, 150, 243, 0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+
+        <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: rgba(33, 150, 243, 0.2); border-radius: 50%; opacity: 0.5;"></div>
+
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 4rem; margin-bottom: 1rem; text-align: center;">🛒</div>
+          <h2 style="color: #2196F3; margin: 0 0 1rem 0; font-size: 1.8rem; font-weight: 800;">Historial de Compras</h2>
+          <p style="color: #ccc; margin: 0; line-height: 1.6; font-size: 0.95rem;">
+            Revisa todas tus compras anteriores, consulta detalles de facturas y accede al historial completo de tus transacciones.
+          </p>
+          <div style="margin-top: 1.5rem; display: flex; align-items: center; gap: 0.5rem; color: #2196F3; font-weight: 600; font-size: 0.9rem;">
+            Ver historial <span style="font-size: 1.2rem;">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Datos Personales - Sección Secundaria -->
+    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 2rem; margin-top: 3rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3 style="color: #d4af37; margin: 0; font-size: 1.3rem;">Datos Personales</h3>
+        <button style="padding: 0.6rem 1.2rem; background: rgba(212, 175, 55, 0.2); border: 1px solid #d4af37; color: #d4af37; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s;" 
+                onclick="app.navigateTo('profile')"
+                onmouseover="this.style.background='rgba(212, 175, 55, 0.3)'"
+                onmouseout="this.style.background='rgba(212, 175, 55, 0.2)'">
+          Ver Perfil Completo
+        </button>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+        <div>
+          <p style="color: #888; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">NOMBRE</p>
+          <p style="color: #d4af37; font-weight: 700; margin: 0; font-size: 1.1rem;" id="dashboardName">Juan Martinez</p>
+        </div>
+        <div>
+          <p style="color: #888; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">CORREO</p>
+          <p style="color: #d4af37; font-weight: 700; margin: 0; font-size: 1.1rem;" id="dashboardEmail">juan@studiofit.com</p>
+        </div>
+        <div>
+          <p style="color: #888; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">TELÉFONO</p>
+          <p style="color: #d4af37; font-weight: 700; margin: 0; font-size: 1.1rem;" id="dashboardPhone">+52 (449) 123-4567</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<style>
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2.5rem !important;
+    }
+    
+    [onclick*="navigateTo"] {
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+</style>

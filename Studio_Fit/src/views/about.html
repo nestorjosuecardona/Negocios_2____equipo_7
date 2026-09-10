@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Fit - Sobre Nosotros</title>
+    <link rel="stylesheet" href="/src/styles/variables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background-color: #050813; color: white; margin: 0; font-family: sans-serif;">
+
+    <header style="border-bottom: 1px solid #d4af37; padding: 1rem 0;">
+        <div class="header-container" style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
+            <a class="logo" onclick="app.navigateTo('home')" style="cursor: pointer; color: #d4af37; font-size: 1.5rem; font-weight: bold; text-decoration: none;">Studio Fit</a>
+            <nav>
+                <ul style="list-style: none; display: flex; gap: 2rem; margin: 0; padding: 0; flex-wrap: wrap; font-size: 0.95rem;">
+                    <li><a href="#" onclick="app.navigateTo('catalog'); return false;" style="color: white; text-decoration: none;">Catálogo</a></li>
+                    <li><a href="#" onclick="app.navigateTo('community'); return false;" style="color: white; text-decoration: none;">Comunidad</a></li>
+                    <li><a href="#" onclick="app.navigateTo('publish-product'); return false;" style="color: white; text-decoration: none;">Publicar</a></li>
+                    <li><a href="#" onclick="app.navigateTo('about'); return false;" style="color: white; text-decoration: none;">Nosotros</a></li>
+                    <li><a href="#" onclick="app.navigateTo('classes'); return false;" style="color: white; text-decoration: none;">Clases</a></li>
+                    <li><a href="#" onclick="app.navigateTo('contact'); return false;" style="color: white; text-decoration: none;">Contacto</a></li>
+                    <li><a href="#" onclick="app.navigateTo('admin'); return false;" style="color: #d4af37; text-decoration: none; font-weight: 600; border: 1px solid #d4af37; padding: 0.4rem 0.8rem; border-radius: 4px;">Admin</a></li>
+                    <li><a href="#" id="profile-link" onclick="app.navigateTo('login'); return false;" style="color: white; text-decoration: none;">Iniciar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="flex: 1;">
+        <section class="hero" style="
+            background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('/imagen/recepcion.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 500px;
+            width: 60%;
+            margin: 2rem auto;
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+        ">
+        </section>
+
+        <section style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+
+            <div style="background: rgba(255,255,255,0.05); border: 2px solid #d4af37; border-radius: 12px; padding: 2.5rem; margin-bottom: 2rem;">
+                <h2 style="color: #d4af37; margin-top: 0;">Nuestra Historia</h2>
+                <p style="color: #ccc; line-height: 1.8;">
+                    Studio Fit fue fundada en 2020 con la visión de crear un espacio donde todos puedan alcanzar sus metas de fitness,
+                    sin importar su nivel de experiencia. Comenzamos como un pequeño gimnasio y hoy somos un centro de entrenamiento
+                    integral con más de 200 máquinas y áreas especializadas.
+                </p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div style="background: rgba(212, 175, 55, 0.1); border: 2px solid #d4af37; border-radius: 12px; padding: 2rem; text-align: center;">
+                    <h3 style="color: #d4af37; font-size: 2.5rem; margin: 0;">5000+</h3>
+                    <p style="color: #ccc; margin-top: 0.5rem;">Miembros Activos</p>
+                </div>
+                <div style="background: rgba(212, 175, 55, 0.1); border: 2px solid #d4af37; border-radius: 12px; padding: 2rem; text-align: center;">
+                    <h3 style="color: #d4af37; font-size: 2.5rem; margin: 0;">15+</h3>
+                    <p style="color: #ccc; margin-top: 0.5rem;">Clases Diarias</p>
+                </div>
+                <div style="background: rgba(212, 175, 55, 0.1); border: 2px solid #d4af37; border-radius: 12px; padding: 2rem; text-align: center;">
+                    <h3 style="color: #d4af37; font-size: 2.5rem; margin: 0;">30+</h3>
+                    <p style="color: #ccc; margin-top: 0.5rem;">Entrenadores Certificados</p>
+                </div>
+                <div style="background: rgba(212, 175, 55, 0.1); border: 2px solid #d4af37; border-radius: 12px; padding: 2rem; text-align: center;">
+                    <h3 style="color: #d4af37; font-size: 2.5rem; margin: 0;">200+</h3>
+                    <p style="color: #ccc; margin-top: 0.5rem;">Máquinas de Entrenamiento</p>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div style="background: rgba(255,255,255,0.05); border: 1px solid #d4af37; border-radius: 12px; padding: 2rem; text-align: center;">
+                    <h3 style="color: #d4af37;">Nuestra Misión</h3>
+                    <p style="color: #ccc;">Proporcionar servicios de fitness de calidad premium a precios accesibles e inspirar a nuestra comunidad.</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.05); border: 1px solid #d4af37; border-radius: 12px; padding: 2rem; text-align: center;">
+                    <h3 style="color: #d4af37;">Nuestra Visión</h3>
+                    <p style="color: #ccc;">Ser el referente número uno en la región para el bienestar integral y tecnología deportiva.</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.05); border: 1px solid #d4af37; border-radius: 12px; padding: 2rem; text-align: center;">
+                    <h3 style="color: #d4af37;">Nuestros Valores</h3>
+                    <p style="color: #ccc;">Excelencia, Inclusión, Innovación y Comunidad en cada entrenamiento.</p>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-top: 3rem;">
+
+                <div style="position: relative; border: 2px solid #d4af37; border-radius: 15px; overflow: hidden; height: 450px;">
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; pointer-events: auto;"></div>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59243.27572450523!2d-102.33535265!3d21.8823193!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429ee699477017d%3A0x9d5494d3a2f8c512!2sAguascalientes%2C%20Ags.!5e0!3m2!1ses-419!2smx!4v1700000000000!5m2!1ses-419!2smx"
+                            width="100%"
+                            height="100%"
+                            style="border:0; pointer-events: none;"
+                            allowfullscreen=""
+                            loading="lazy">
+                    </iframe>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.05); border: 1px solid #d4af37; border-radius: 15px; padding: 2rem;">
+                    <h2 style="color: #d4af37; margin-top: 0;">Contáctanos</h2>
+                    <p style="margin-bottom: 1.5rem;"><strong>Ubicación:</strong><br> Avenida López Mateos 456, Aguascalientes, Mx.</p>
+                    <p style="margin-bottom: 1.5rem;"><strong>Horarios:</strong><br> Lunes a Viernes: 6:00 AM - 10:00 PM</p>
+                    <p style="margin-bottom: 1.5rem;"><strong>Teléfono:</strong><br> +52 (449) 445-6789</p>
+                    <p><strong>Email:</strong><br> contacto@studiofit.com</p>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer style="background: #050813; border-top: 2px solid #d4af37; padding: 2rem; margin-top: 4rem;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h3 style="color: #d4af37; margin-top: 0;">Síguenos</h3>
+                <div style="display: flex; justify-content: center; gap: 2rem;">
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-facebook"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-instagram"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="font-size: 1.5rem; text-decoration: none; color: #d4af37; cursor: not-allowed;"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <p style="text-align: center; color: #888;">&copy; 2024 Studio Fit. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
