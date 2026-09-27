@@ -1,0 +1,3 @@
+import { Bell, LogOut, Menu, UserCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+export default function Topbar({onMenu}){const {user,logout}=useAuth();return <header className="topbar"><button className="icon-button menu-button" onClick={onMenu}><Menu size={21}/></button><div className="topbar-title"><strong>Panel de gestión</strong><span>Unidad 1 CRM · Unidad 2 SCM</span></div><div className="topbar-actions"><button className="icon-button"><Bell size={19}/></button><div className="user-chip"><UserCircle size={20}/><div><strong>{user?.nombre}</strong><small>{user?.rol}</small></div></div><button className="icon-button" onClick={logout} title="Cerrar sesión"><LogOut size={19}/></button></div></header>}

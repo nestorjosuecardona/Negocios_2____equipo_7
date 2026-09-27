@@ -1,4 +1,13 @@
-.vs/ 
-bin/ 
-obj/ 
-node_modules/ 
+nnode_modules/
+dist/
+
+.env
+.env.*
+!.env.example
+
+*.log
+.vscode/
+.vs/
+.DS_Store
+npm-debug.log*
+Thumbs.db

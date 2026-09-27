@@ -1,0 +1,94 @@
+import 'dotenv/config';
+
+const API =
+    'http://localhost:3000/api';
+
+
+const usuarios = [
+    {
+        rol: 'SUPER_ADMIN',
+        correo:
+            process.env.SEED_SUPER_ADMIN_EMAIL,
+        password:
+            process.env.SEED_SUPER_ADMIN_PASSWORD
+    },
+    {
+        rol: 'ADMIN',
+        correo:
+            process.env.SEED_ADMIN_EMAIL,
+        password:
+            process.env.SEED_ADMIN_PASSWORD
+    },
+    {
+        rol: 'CLIENTE',
+        correo:
+            process.env.SEED_CLIENTE_EMAIL,
+        password:
+            process.env.SEED_CLIENTE_PASSWORD
+    }
+];
+
+
+async function iniciarSesion(usuario) {
+    const response = await fetch(
+        `${API}/auth/login`,
+        {
+            method: 'POST',
+
+            headers: {
+                'Content-Type':
+                    'application/json'
+            },
+
+            body: JSON.stringify({
+                correo: usuario.correo,
+                password: usuario.password
+            })
+        }
+    );
+
+    return response.json();
+}
+
+
+async function probar(usuario) {
+    const sesion =
+        await iniciarSesion(usuario);
+
+    const response = await fetch(
+        `${API}/admin/usuarios`,
+        {
+            headers: {
+                Authorization:
+                    `Bearer ${sesion.token}`
+            }
+        }
+    );
+
+    console.log(
+        `${usuario.rol}:`,
+        response.status
+    );
+
+    if (
+        usuario.rol === 'SUPER_ADMIN' &&
+        response.ok
+    ) {
+        const data =
+            await response.json();
+
+        console.log(
+            `Usuarios encontrados: ${data.length}`
+        );
+    }
+}
+
+
+async function ejecutar() {
+    for (const usuario of usuarios) {
+        await probar(usuario);
+    }
+}
+
+
+ejecutar();
