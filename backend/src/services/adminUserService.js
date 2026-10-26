@@ -15,6 +15,12 @@ const validStates = [
     'bloqueado',
 ];
 
+const businessRoles = [
+    'ADMIN',
+    'VENTAS',
+    'LOGISTICA',
+];
+
 function normalizeEmail(value) {
     return value
         ?.trim()
@@ -120,6 +126,47 @@ export async function createAdmin({
             normalizedEmail,
         passwordHash,
         rol: 'ADMIN',
+    });
+}
+
+export async function createBusinessUser({
+    nombre,
+    correo,
+    password,
+    rol,
+}) {
+    const normalizedName = nombre?.trim();
+    const normalizedEmail = normalizeEmail(correo);
+    const normalizedRole = rol?.trim().toUpperCase();
+
+    validateName(normalizedName);
+    validateEmail(normalizedEmail);
+
+    if (!businessRoles.includes(normalizedRole)) {
+        const error = new Error('El rol debe ser ADMIN, VENTAS o LOGISTICA.');
+        error.status = 400;
+        throw error;
+    }
+
+    if (!password || password.length < 8) {
+        const error = new Error('La contraseña debe tener al menos 8 caracteres.');
+        error.status = 400;
+        throw error;
+    }
+
+    const existing = await findUserByEmail(normalizedEmail);
+    if (existing) {
+        const error = new Error('El correo ya está registrado.');
+        error.status = 409;
+        throw error;
+    }
+
+    const passwordHash = await bcrypt.hash(password, 12);
+    return createUser({
+        nombre: normalizedName,
+        correo: normalizedEmail,
+        passwordHash,
+        rol: normalizedRole,
     });
 }
 

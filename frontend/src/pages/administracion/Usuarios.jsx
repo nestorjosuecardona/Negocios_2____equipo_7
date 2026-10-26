@@ -26,7 +26,7 @@ import Modal
 import {
     actualizarEstadoUsuario,
     actualizarUsuario,
-    crearAdministrador,
+    crearPersonal,
     getUsuarios,
 } from '../../services/adminUsuariosService';
 
@@ -34,6 +34,7 @@ const emptyAdmin = {
     nombre: '',
     correo: '',
     password: '',
+    rol: 'ADMIN',
 };
 
 export default function Usuarios() {
@@ -136,11 +137,10 @@ export default function Usuarios() {
                 total:
                     usuarios.length,
 
-                administradores:
+                personal:
                     usuarios.filter(
                         usuario =>
-                            usuario.rol ===
-                            'ADMIN',
+                            ['ADMIN', 'VENTAS', 'LOGISTICA'].includes(usuario.rol),
                     ).length,
 
                 clientes:
@@ -216,6 +216,12 @@ export default function Usuarios() {
             case 'CLIENTE':
                 return 'Cliente';
 
+            case 'VENTAS':
+                return 'Ventas';
+
+            case 'LOGISTICA':
+                return 'Logística';
+
             default:
                 return rol;
         }
@@ -244,7 +250,7 @@ export default function Usuarios() {
         );
     }
 
-    async function guardarAdministrador(
+    async function guardarPersonal(
         event,
     ) {
         event.preventDefault();
@@ -253,7 +259,7 @@ export default function Usuarios() {
             setSaving(true);
             setError('');
 
-            await crearAdministrador(
+            await crearPersonal(
                 createForm,
             );
 
@@ -266,13 +272,13 @@ export default function Usuarios() {
             await cargarUsuarios();
 
             mostrarExito(
-                'Administrador creado correctamente.',
+                'Usuario creado correctamente.',
             );
 
         } catch (err) {
             setError(
                 err.response?.data?.message ||
-                'No fue posible crear el administrador.',
+                'No fue posible crear el usuario.',
             );
         } finally {
             setSaving(false);
@@ -400,7 +406,7 @@ export default function Usuarios() {
 
                         <p>
                             Gestiona cuentas,
-                            administradores, clientes
+                            personal operativo y clientes
                             y estados de acceso.
                         </p>
                     </div>
@@ -426,7 +432,7 @@ export default function Usuarios() {
                                 size={17}
                             />
 
-                            Nuevo administrador
+                            Nuevo usuario operativo
                         </button>
 
                     </div>
@@ -458,12 +464,12 @@ export default function Usuarios() {
 
                         <div>
                             <span>
-                                Administradores
+                                Personal operativo
                             </span>
 
                             <strong>
                                 {
-                                    resumen.administradores
+                                    resumen.personal
                                 }
                             </strong>
                         </div>
@@ -585,6 +591,14 @@ export default function Usuarios() {
 
                             <option value="ADMIN">
                                 Administradores
+                            </option>
+
+                            <option value="VENTAS">
+                                Ventas
+                            </option>
+
+                            <option value="LOGISTICA">
+                                Logística
                             </option>
 
                             <option value="CLIENTE">
@@ -889,13 +903,13 @@ export default function Usuarios() {
                 onClose={() =>
                     setCreateOpen(false)
                 }
-                title="Nuevo administrador"
+                title="Nuevo usuario operativo"
             >
 
                 <form
                     className="form-grid one-column"
                     onSubmit={
-                        guardarAdministrador
+                        guardarPersonal
                     }
                 >
 
@@ -919,6 +933,23 @@ export default function Usuarios() {
                                     })
                             }
                         />
+                    </label>
+
+                    <label>
+                        Rol de acceso
+
+                        <select
+                            required
+                            value={createForm.rol}
+                            onChange={event => setCreateForm({
+                                ...createForm,
+                                rol: event.target.value,
+                            })}
+                        >
+                            <option value="ADMIN">Administrador</option>
+                            <option value="VENTAS">Ventas</option>
+                            <option value="LOGISTICA">Logística</option>
+                        </select>
                     </label>
 
                     <label>
@@ -991,7 +1022,7 @@ export default function Usuarios() {
 
                             {saving
                                 ? 'Guardando...'
-                                : 'Crear administrador'}
+                                : 'Crear usuario'}
                         </button>
 
                     </div>

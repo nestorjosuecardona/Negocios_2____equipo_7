@@ -36,6 +36,8 @@ import profileRoutes
     from './routes/profileRoutes.js';
 import adminSaleRoutes
     from './routes/adminSaleRoutes.js';
+import erpRoutes
+    from './routes/erpRoutes.js';
 
 const app = express();
 
@@ -122,9 +124,22 @@ app.use(
     requireAuth,
     requireRole(
         'SUPER_ADMIN',
-        'ADMIN'
+        'ADMIN',
+        'LOGISTICA'
     ),
     scmRoutes
+);
+
+app.use(
+    '/api/erp',
+    requireAuth,
+    requireRole(
+        'SUPER_ADMIN',
+        'ADMIN',
+        'VENTAS',
+        'LOGISTICA'
+    ),
+    erpRoutes
 );
 
 app.use(

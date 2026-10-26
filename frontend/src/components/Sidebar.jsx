@@ -8,214 +8,82 @@ import {
     Package,
     PanelsTopLeft,
     ShieldCheck,
+    ShoppingCart,
     Truck,
     UserCog,
     Users,
-    X
+    X,
 } from 'lucide-react';
-
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+const ADMIN_ROLES = ['SUPER_ADMIN', 'ADMIN'];
+const ERP_ROLES = [...ADMIN_ROLES, 'VENTAS', 'LOGISTICA'];
+const SCM_ROLES = [...ADMIN_ROLES, 'LOGISTICA'];
 
 const links = [
-    {
-        to: '/dashboard',
-        label: 'Dashboard',
-        icon: Gauge
-    },
+    { section: 'CRM', roles: ADMIN_ROLES },
+    { to: '/dashboard', label: 'Dashboard CRM', icon: Gauge, roles: ADMIN_ROLES },
+    { to: '/clientes', label: 'Clientes', icon: Users, roles: ADMIN_ROLES },
+    { to: '/interacciones', label: 'Interacciones', icon: History, roles: ADMIN_ROLES },
+    { to: '/mi-actividad', label: 'Mi actividad', icon: ClipboardList, roles: ADMIN_ROLES },
+    { to: '/reportes', label: 'Reportes CRM', icon: BarChart3, roles: ADMIN_ROLES },
 
-    {
-        section: 'CRM'
-    },
+    { section: 'SCM', roles: SCM_ROLES },
+    { to: '/scm', label: 'Resumen SCM', icon: PanelsTopLeft, roles: SCM_ROLES },
+    { to: '/scm/proveedores', label: 'Proveedores', icon: Truck, roles: SCM_ROLES },
+    { to: '/scm/productos', label: 'Productos', icon: Package, roles: SCM_ROLES },
+    { to: '/scm/inventario', label: 'Inventario', icon: Boxes, roles: SCM_ROLES },
+    { to: '/scm/ordenes', label: 'Reposiciones', icon: Factory, roles: SCM_ROLES },
+    { to: '/scm/reportes', label: 'Reportes SCM', icon: BarChart3, roles: SCM_ROLES },
 
-    {
-        to: '/clientes',
-        label: 'Clientes',
-        icon: Users
-    },
+    { section: 'ERP', roles: ERP_ROLES },
+    { to: '/erp', label: 'Panel empresarial', icon: Gauge, roles: ERP_ROLES },
+    { to: '/erp/ordenes', label: 'Órdenes ERP', icon: ShoppingCart, roles: ERP_ROLES },
+    { to: '/erp/nivel', label: 'Nivel ERP', icon: PanelsTopLeft, roles: ADMIN_ROLES },
 
-    {
-        to: '/interacciones',
-        label: 'Interacciones',
-        icon: History
-    },
-
-    {
-        to: '/mi-actividad',
-        label: 'Mi actividad',
-        icon: ClipboardList
-    },
-
-    {
-        to: '/reportes',
-        label: 'Reportes',
-        icon: BarChart3
-    },
-
-    {
-        section: 'SCM'
-    },
-
-    {
-        to: '/scm',
-        label: 'Resumen SCM',
-        icon: PanelsTopLeft
-    },
-
-    {
-        to: '/scm/proveedores',
-        label: 'Proveedores',
-        icon: Truck
-    },
-
-    {
-        to: '/scm/productos',
-        label: 'Productos',
-        icon: Package
-    },
-
-    {
-        to: '/scm/inventario',
-        label: 'Inventario',
-        icon: Boxes
-    },
-
-    {
-        to: '/scm/ordenes',
-        label: 'Órdenes',
-        icon: Factory
-    },
-
-    {
-        section: 'ADMINISTRACIÓN',
-        superAdminOnly: true
-    },
-
-    {
-        to: '/administracion/usuarios',
-        label: 'Usuarios',
-        icon: UserCog,
-        superAdminOnly: true
-    },
-
-    {
-        to: '/administracion/seguridad',
-        label: 'Seguridad',
-        icon: ShieldCheck,
-        superAdminOnly: true
-    },
-
-    {
-        to: '/scm/reportes',
-        label: 'Reportes SCM',
-        icon: BarChart3,
-    }
+    { section: 'ADMINISTRACIÓN', roles: ['SUPER_ADMIN'] },
+    { to: '/administracion/usuarios', label: 'Usuarios', icon: UserCog, roles: ['SUPER_ADMIN'] },
+    { to: '/administracion/seguridad', label: 'Seguridad', icon: ShieldCheck, roles: ['SUPER_ADMIN'] },
 ];
 
-
-export default function Sidebar({
-    open,
-    onClose
-}) {
+export default function Sidebar({ open, onClose }) {
     const { user } = useAuth();
-
-    const visibleLinks = links.filter(
-        item =>
-            !item.superAdminOnly ||
-            user?.rol === 'SUPER_ADMIN'
-    );
+    const visibleLinks = links.filter(item => !item.roles || item.roles.includes(user?.rol));
 
     return (
-        <aside
-            className={
-                `sidebar ${open
-                    ? 'sidebar-open'
-                    : ''
-                }`
-            }
-        >
-
+        <aside className={`sidebar ${open ? 'sidebar-open' : ''}`}>
             <div className="brand">
-
-                <div className="brand-mark">
-                    N2
-                </div>
-
+                <div className="brand-mark">N2</div>
                 <div>
-                    <strong>
-                        Negocios 2
-                    </strong>
-
-                    <small>
-                        CRM · SCM
-                    </small>
+                    <strong>Negocios 2</strong>
+                    <small>CRM · SCM · ERP</small>
                 </div>
-
-                <button
-                    className="icon-button sidebar-close"
-                    onClick={onClose}
-                >
-                    <X size={20} />
-                </button>
-
+                <button className="icon-button sidebar-close" onClick={onClose} aria-label="Cerrar menú"><X size={20} /></button>
             </div>
-
 
             <nav className="nav-list">
-
-                {visibleLinks.map(
-                    (item, index) => {
-
-                        if (item.section) {
-                            return (
-                                <div
-                                    className="nav-section"
-                                    key={`section-${index}`}
-                                >
-                                    {item.section}
-                                </div>
-                            );
-                        }
-
-                        const Icon =
-                            item.icon;
-
-                        return (
-                            <NavLink
-                                key={item.to}
-                                to={item.to}
-                                end={item.to === '/scm'}
-                                onClick={onClose}
-                                className={
-                                    ({ isActive }) =>
-                                        `nav-item ${isActive
-                                            ? 'active'
-                                            : ''
-                                        }`
-                                }
-                            >
-                                <Icon size={18} />
-
-                                <span>
-                                    {item.label}
-                                </span>
-                            </NavLink>
-                        );
+                {visibleLinks.map((item, index) => {
+                    if (item.section) {
+                        return <div className="nav-section" key={`section-${index}`}>{item.section}</div>;
                     }
-                )}
-
+                    const Icon = item.icon;
+                    return (
+                        <NavLink
+                            key={item.to}
+                            to={item.to}
+                            end={['/scm', '/erp'].includes(item.to)}
+                            onClick={onClose}
+                            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+                        >
+                            <Icon size={18} />
+                            <span>{item.label}</span>
+                        </NavLink>
+                    );
+                })}
             </nav>
 
-
-            <div className="sidebar-footer">
-
-                <span className="status-dot" />
-
-                Sistema conectado
-
-            </div>
-
+            <div className="sidebar-footer"><span className="status-dot" />Sistema conectado</div>
         </aside>
     );
 }

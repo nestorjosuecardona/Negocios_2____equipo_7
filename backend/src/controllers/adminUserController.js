@@ -27,6 +27,20 @@ export async function storeAdmin(
         .json(user);
 }
 
+export async function storeBusinessUser(
+    req,
+    res,
+) {
+    const user =
+        await service.createBusinessUser(
+            req.body,
+        );
+
+    res
+        .status(201)
+        .json(user);
+}
+
 export async function update(
     req,
     res,

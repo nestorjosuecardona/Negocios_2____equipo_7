@@ -5,6 +5,7 @@ import {
 import {
     index,
     storeAdmin,
+    storeBusinessUser,
     update,
     updateStatus,
 } from '../controllers/adminUserController.js';
@@ -25,6 +26,13 @@ router.post(
     '/administradores',
     asyncHandler(
         storeAdmin,
+    ),
+);
+
+router.post(
+    '/personal',
+    asyncHandler(
+        storeBusinessUser,
     ),
 );
 

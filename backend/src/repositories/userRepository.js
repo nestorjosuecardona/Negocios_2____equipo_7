@@ -325,9 +325,13 @@ export async function getAllUsers() {
                             THEN 1
                         WHEN 'ADMIN'
                             THEN 2
-                        WHEN 'CLIENTE'
+                        WHEN 'VENTAS'
                             THEN 3
-                        ELSE 4
+                        WHEN 'LOGISTICA'
+                            THEN 4
+                        WHEN 'CLIENTE'
+                            THEN 5
+                        ELSE 6
                     END,
                     u.nombre ASC
             `);

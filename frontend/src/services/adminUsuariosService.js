@@ -10,12 +10,12 @@ export const getUsuarios = () =>
                 response.data,
         );
 
-export const crearAdministrador = (
+export const crearPersonal = (
     data,
 ) =>
     api
         .post(
-            '/admin/usuarios/administradores',
+            '/admin/usuarios/personal',
             data,
         )
         .then(

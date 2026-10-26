@@ -51,6 +51,15 @@ export default function Login() {
             );
         }
 
+        if (['VENTAS', 'LOGISTICA'].includes(user?.rol)) {
+            return (
+                <Navigate
+                    to="/erp"
+                    replace
+                />
+            );
+        }
+
         return (
             <Navigate
                 to="/dashboard"
@@ -73,39 +82,13 @@ export default function Login() {
                     password
                 );
 
-            if (
-                loggedUser.rol ===
-                'CLIENTE'
-            ) {
-                navigate(
-                    '/cliente/inicio',
-                    {
-                        replace: true
-                    }
-                );
+            const destination = loggedUser.rol === 'CLIENTE'
+                ? '/cliente/inicio'
+                : ['VENTAS', 'LOGISTICA'].includes(loggedUser.rol)
+                    ? '/erp'
+                    : '/dashboard';
 
-                return;
-            }
-
-            if (
-                loggedUser.rol ===
-                'SUPER_ADMIN' ||
-                loggedUser.rol ===
-                'ADMIN'
-            ) {
-                navigate(
-                    '/dashboard',
-                    {
-                        replace: true
-                    }
-                );
-
-                return;
-            }
-
-            setError(
-                'El usuario no tiene un rol válido.'
-            );
+            navigate(destination, { replace: true });
 
         } catch (err) {
             setError(

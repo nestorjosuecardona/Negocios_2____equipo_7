@@ -38,6 +38,9 @@ import Carrito from './pages/cliente/Carrito';
 
 import Seguridad from './pages/administracion/Seguridad';
 import Pedidos from './pages/administracion/Pedidos';
+import ErpDashboard from './pages/erp/ErpDashboard';
+import ErpOrders from './pages/erp/Ordenes';
+import ErpLevel from './pages/erp/NivelErp';
 
 import {
     CartProvider,
@@ -46,6 +49,18 @@ import {
 const ADMIN_ROLES = [
     'SUPER_ADMIN',
     'ADMIN',
+];
+const ERP_ROLES = [
+    'SUPER_ADMIN',
+    'ADMIN',
+    'VENTAS',
+    'LOGISTICA',
+];
+
+const SCM_ROLES = [
+    'SUPER_ADMIN',
+    'ADMIN',
+    'LOGISTICA',
 ];
 
 function AdminRoute({
@@ -83,6 +98,22 @@ function ClientRoute({
                 'CLIENTE',
             ]}
         >
+            {children}
+        </ProtectedRoute>
+    );
+}
+
+function ErpRoute({ children }) {
+    return (
+        <ProtectedRoute allowedRoles={ERP_ROLES}>
+            {children}
+        </ProtectedRoute>
+    );
+}
+
+function ScmRoute({ children }) {
+    return (
+        <ProtectedRoute allowedRoles={SCM_ROLES}>
             {children}
         </ProtectedRoute>
     );
@@ -192,56 +223,71 @@ export default function App() {
                 />
 
                 <Route
+                    path="/erp"
+                    element={<ErpRoute><ErpDashboard /></ErpRoute>}
+                />
+
+                <Route
+                    path="/erp/ordenes"
+                    element={<ErpRoute><ErpOrders /></ErpRoute>}
+                />
+
+                <Route
+                    path="/erp/nivel"
+                    element={<AdminRoute><ErpLevel /></AdminRoute>}
+                />
+
+                <Route
                     path="/scm"
                     element={
-                        <AdminRoute>
+                        <ScmRoute>
                             <ScmDashboard />
-                        </AdminRoute>
+                        </ScmRoute>
                     }
                 />
 
                 <Route
                     path="/scm/proveedores"
                     element={
-                        <AdminRoute>
+                        <ScmRoute>
                             <Proveedores />
-                        </AdminRoute>
+                        </ScmRoute>
                     }
                 />
 
                 <Route
                     path="/scm/productos"
                     element={
-                        <AdminRoute>
+                        <ScmRoute>
                             <Productos />
-                        </AdminRoute>
+                        </ScmRoute>
                     }
                 />
 
                 <Route
                     path="/scm/inventario"
                     element={
-                        <AdminRoute>
+                        <ScmRoute>
                             <Inventario />
-                        </AdminRoute>
+                        </ScmRoute>
                     }
                 />
 
                 <Route
                     path="/scm/ordenes"
                     element={
-                        <AdminRoute>
+                        <ScmRoute>
                             <Ordenes />
-                        </AdminRoute>
+                        </ScmRoute>
                     }
                 />
 
                 <Route
                     path="/scm/reportes"
                     element={
-                        <AdminRoute>
+                        <ScmRoute>
                             <ScmReportes />
-                        </AdminRoute>
+                        </ScmRoute>
                     }
                 />
 
