@@ -13,6 +13,7 @@ import './styles/dashboard.css';
 import './styles/auth.css';
 import './styles/responsive.css';
 import './styles/erp.css';
+import './styles/inicio-general.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode><BrowserRouter><AuthProvider><App/></AuthProvider></BrowserRouter></React.StrictMode>

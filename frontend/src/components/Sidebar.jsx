@@ -4,6 +4,7 @@ import {
     ClipboardList,
     Factory,
     Gauge,
+    House,
     History,
     Package,
     PanelsTopLeft,
@@ -22,6 +23,8 @@ const ERP_ROLES = [...ADMIN_ROLES, 'VENTAS', 'LOGISTICA'];
 const SCM_ROLES = [...ADMIN_ROLES, 'LOGISTICA'];
 
 const links = [
+    { to: '/inicio', label: 'Inicio general', icon: House, roles: ADMIN_ROLES },
+
     { section: 'CRM', roles: ADMIN_ROLES },
     { to: '/dashboard', label: 'Dashboard CRM', icon: Gauge, roles: ADMIN_ROLES },
     { to: '/clientes', label: 'Clientes', icon: Users, roles: ADMIN_ROLES },
@@ -42,9 +45,9 @@ const links = [
     { to: '/erp/ordenes', label: 'Órdenes ERP', icon: ShoppingCart, roles: ERP_ROLES },
     { to: '/erp/nivel', label: 'Nivel ERP', icon: PanelsTopLeft, roles: ADMIN_ROLES },
 
-    { section: 'ADMINISTRACIÓN', roles: ['SUPER_ADMIN'] },
-    { to: '/administracion/usuarios', label: 'Usuarios', icon: UserCog, roles: ['SUPER_ADMIN'] },
-    { to: '/administracion/seguridad', label: 'Seguridad', icon: ShieldCheck, roles: ['SUPER_ADMIN'] },
+    { section: 'ADMINISTRACIÓN', roles: ADMIN_ROLES },
+    { to: '/administracion/usuarios', label: 'Usuarios', icon: UserCog, roles: ADMIN_ROLES },
+    { to: '/administracion/seguridad', label: 'Seguridad', icon: ShieldCheck, roles: ADMIN_ROLES },
 ];
 
 export default function Sidebar({ open, onClose }) {

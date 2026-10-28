@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
 import NotFound from './pages/NotFound';
+import InicioGeneral from './pages/InicioGeneral';
 
 import Landing from './pages/cliente/Landing';
 import Catalogo from './pages/cliente/Catalogo';
@@ -69,20 +70,6 @@ function AdminRoute({
     return (
         <ProtectedRoute
             allowedRoles={ADMIN_ROLES}
-        >
-            {children}
-        </ProtectedRoute>
-    );
-}
-
-function SuperAdminRoute({
-    children,
-}) {
-    return (
-        <ProtectedRoute
-            allowedRoles={[
-                'SUPER_ADMIN',
-            ]}
         >
             {children}
         </ProtectedRoute>
@@ -164,6 +151,15 @@ export default function App() {
                     element={
                         <AdminRoute>
                             <Dashboard />
+                        </AdminRoute>
+                    }
+                />
+
+                <Route
+                    path="/inicio"
+                    element={
+                        <AdminRoute>
+                            <InicioGeneral />
                         </AdminRoute>
                     }
                 />
@@ -294,9 +290,9 @@ export default function App() {
                 <Route
                     path="/administracion/usuarios"
                     element={
-                        <SuperAdminRoute>
+                        <AdminRoute>
                             <Usuarios />
-                        </SuperAdminRoute>
+                        </AdminRoute>
                     }
                 />
 
@@ -346,9 +342,9 @@ export default function App() {
                 <Route
                     path="/administracion/seguridad"
                     element={
-                        <SuperAdminRoute>
+                        <AdminRoute>
                             <Seguridad />
-                        </SuperAdminRoute>
+                        </AdminRoute>
                     }
                 />
 

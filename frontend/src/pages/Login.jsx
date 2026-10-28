@@ -62,7 +62,7 @@ export default function Login() {
 
         return (
             <Navigate
-                to="/dashboard"
+                to="/inicio"
                 replace
             />
         );
@@ -86,7 +86,7 @@ export default function Login() {
                 ? '/cliente/inicio'
                 : ['VENTAS', 'LOGISTICA'].includes(loggedUser.rol)
                     ? '/erp'
-                    : '/dashboard';
+                    : '/inicio';
 
             navigate(destination, { replace: true });
 

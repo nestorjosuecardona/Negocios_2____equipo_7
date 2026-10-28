@@ -1,0 +1,29 @@
+.general-overview,
+.general-recent-orders { margin-bottom: 18px; }
+.general-module-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.general-module-card { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 15px; color: var(--text); text-decoration: none; background: var(--bg-soft); border: 1px solid var(--border-soft); border-radius: 11px; transition: border-color .15s ease, transform .15s ease; }
+.general-module-card:hover { border-color: var(--red); transform: translateY(-1px); }
+.general-module-card > div { flex: 1; min-width: 0; }
+.general-module-card strong { font-size: 14px; }
+.general-module-card p { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.general-module-icon { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; color: #ff7c86; background: rgba(214, 32, 47, .14); border-radius: 10px; }
+.general-module-card > svg { flex: 0 0 auto; color: var(--muted); }
+.general-dashboard-grid { margin-bottom: 18px; }
+.general-month-list { display: grid; gap: 13px; padding: 5px 0; }
+.general-month-row { display: grid; grid-template-columns: minmax(105px, 1fr) minmax(90px, 1.25fr) minmax(90px, .8fr); align-items: center; gap: 12px; font-size: 12px; }
+.general-month-row > span { color: var(--text-2); text-transform: capitalize; }
+.general-month-row > div { height: 9px; overflow: hidden; background: var(--bg-soft); border-radius: 99px; }
+.general-month-row > div > span { display: block; height: 100%; background: linear-gradient(90deg, var(--red-dark), #ff6572); border-radius: inherit; }
+.general-month-row > strong { text-align: right; white-space: nowrap; }
+.general-top-products { display: grid; }
+.general-top-product { display: flex; align-items: center; gap: 11px; padding: 11px 0; border-bottom: 1px solid var(--border-soft); }
+.general-top-product:last-child { border-bottom: 0; }
+.general-top-product > span { display: grid; place-items: center; width: 27px; height: 27px; flex: 0 0 27px; color: #ff7c86; background: rgba(214, 32, 47, .14); border-radius: 8px; font-size: 12px; font-weight: 800; }
+.general-top-product > div { flex: 1; min-width: 0; }
+.general-top-product strong, .general-top-product small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.general-top-product strong { font-size: 13px; }
+.general-top-product small { margin-top: 3px; color: var(--muted); font-size: 11px; }
+.general-loading { padding: 14px 0; color: var(--muted); text-align: center; }
+.general-recent-orders .panel-header .text-link { display: inline-flex; align-items: center; gap: 5px; }
+@media (max-width: 900px) { .general-module-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .general-month-row { grid-template-columns: minmax(78px, .8fr) minmax(60px, 1fr) minmax(75px, auto); gap: 8px; font-size: 11px; } }

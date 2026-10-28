@@ -145,7 +145,7 @@ app.use(
 app.use(
     '/api/admin/usuarios',
     requireAuth,
-    requireRole('SUPER_ADMIN'),
+    requireRole('SUPER_ADMIN', 'ADMIN'),
     adminUserRoutes
 );
 

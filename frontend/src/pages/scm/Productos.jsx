@@ -2,6 +2,7 @@ import {
     useEffect,
     useState,
 } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import {
     AlertTriangle,
@@ -52,6 +53,7 @@ const emptyForm = {
 
 
 export default function Productos() {
+    const [searchParams, setSearchParams] = useSearchParams();
     const [items, setItems] =
         useState([]);
 
@@ -165,6 +167,14 @@ export default function Productos() {
     useEffect(() => {
         loadCatalogs();
     }, []);
+
+    useEffect(() => {
+        if (searchParams.get('alta') !== '1' || !categories.length || !suppliers.length) return;
+        openCreate();
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.delete('alta');
+        setSearchParams(nextParams, { replace: true });
+    }, [searchParams, categories.length, suppliers.length]);
 
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ClipboardList, Eye, Plus, Search, XCircle } from 'lucide-react';
+import { AlertTriangle, ClipboardList, Eye, Plus, Search, XCircle } from 'lucide-react';
 import Badge from '../../components/Badge';
 import EmptyState from '../../components/EmptyState';
 import MainLayout from '../../components/MainLayout';
@@ -36,6 +36,7 @@ export default function Ordenes() {
     const [createOpen, setCreateOpen] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [form, setForm] = useState(emptyForm);
+    const [stockWarning, setStockWarning] = useState('');
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [saving, setSaving] = useState(false);
     const [busyId, setBusyId] = useState(null);
@@ -61,23 +62,44 @@ export default function Ordenes() {
     }, []);
 
     const selectedProduct = catalog.productos.find(product => Number(product.id_producto) === Number(form.producto_id));
+    const selectedExistingQuantity = form.items.find(item => item.producto_id === Number(form.producto_id))?.cantidad || 0;
+    const availableToAdd = selectedProduct
+        ? Math.max(0, Number(selectedProduct.stock_actual) - Number(selectedExistingQuantity))
+        : 0;
     const selectedItems = useMemo(() => form.items.map(item => ({
         ...item,
         producto: catalog.productos.find(product => Number(product.id_producto) === item.producto_id),
     })), [form.items, catalog.productos]);
     const total = selectedItems.reduce((sum, item) => sum + Number(item.producto?.precio_venta || 0) * item.cantidad, 0);
+    const invalidOrderItem = selectedItems.find(item => {
+        const quantity = Number(item.cantidad);
+        return !Number.isInteger(quantity) || quantity < 1 || quantity > Number(item.producto?.stock_actual || 0);
+    });
+
+    function getStockWarning(product, requestedValue, alreadyAdded = 0) {
+        if (!product) return '';
+        if (requestedValue === '') return 'Ingresa la cantidad que deseas agregar.';
+        const quantity = Number(requestedValue);
+        if (!Number.isInteger(quantity) || quantity < 1) return 'La cantidad debe ser un número entero mayor a cero.';
+        const stock = Number(product.stock_actual || 0);
+        if (alreadyAdded + quantity > stock) {
+            const available = Math.max(0, stock - alreadyAdded);
+            return `Stock insuficiente para ${product.nombre}: hay ${stock} unidades y ya agregaste ${alreadyAdded}. Puedes agregar hasta ${available} más.`;
+        }
+        return '';
+    }
 
     function addProduct() {
         if (!selectedProduct) return;
         const quantity = Number(form.cantidad);
         if (!Number.isInteger(quantity) || quantity < 1) {
-            setError('La cantidad debe ser un número entero mayor a cero.');
+            setStockWarning('La cantidad debe ser un número entero mayor a cero.');
             return;
         }
         const existing = form.items.find(item => item.producto_id === Number(selectedProduct.id_producto));
         const nextQuantity = (existing?.cantidad || 0) + quantity;
         if (nextQuantity > Number(selectedProduct.stock_actual)) {
-            setError(`Solo hay ${selectedProduct.stock_actual} unidades de ${selectedProduct.nombre}.`);
+            setStockWarning(getStockWarning(selectedProduct, quantity, existing?.cantidad || 0));
             return;
         }
         setForm(current => ({
@@ -86,20 +108,28 @@ export default function Ordenes() {
                 ? current.items.map(item => item.producto_id === Number(selectedProduct.id_producto) ? { ...item, cantidad: nextQuantity } : item)
                 : [...current.items, { producto_id: Number(selectedProduct.id_producto), cantidad: quantity }],
         }));
-        setError('');
+        setStockWarning('');
     }
 
     function updateQuantity(productId, value) {
-        const quantity = Number(value);
         const product = catalog.productos.find(item => Number(item.id_producto) === productId);
-        if (!Number.isInteger(quantity) || quantity < 1 || quantity > Number(product?.stock_actual || 0)) return;
-        setForm(current => ({ ...current, items: current.items.map(item => item.producto_id === productId ? { ...item, cantidad: quantity } : item) }));
+        setForm(current => ({
+            ...current,
+            items: current.items.map(item => item.producto_id === productId
+                ? { ...item, cantidad: value === '' ? '' : Number(value) }
+                : item),
+        }));
+        setStockWarning(getStockWarning(product, value));
     }
 
     async function saveOrder(event) {
         event.preventDefault();
         if (!form.cliente_id || !form.items.length) {
             setError('Selecciona un cliente y agrega productos a la orden.');
+            return;
+        }
+        if (invalidOrderItem) {
+            setStockWarning(getStockWarning(invalidOrderItem.producto, invalidOrderItem.cantidad));
             return;
         }
         let created = null;
@@ -175,7 +205,7 @@ export default function Ordenes() {
             <PageHeader
                 title="Órdenes empresariales"
                 subtitle="Crea y procesa órdenes integradas con clientes CRM e inventario SCM."
-                actions={canCreate && <button className="btn btn-primary" onClick={() => { setError(''); setForm(emptyForm); setCreateOpen(true); }}><Plus size={17} /> Nueva orden</button>}
+                actions={canCreate && <button className="btn btn-primary" onClick={() => { setError(''); setStockWarning(''); setForm(emptyForm); setCreateOpen(true); }}><Plus size={17} /> Nueva orden</button>}
             />
 
             {error && <div className="alert alert-error">{error}</div>}
@@ -221,7 +251,7 @@ export default function Ordenes() {
                 {loading && <div className="erp-loading">Cargando órdenes…</div>}
             </div>
 
-            <Modal open={createOpen} title="Nueva orden ERP" onClose={() => !saving && setCreateOpen(false)}>
+                    <Modal open={createOpen} title="Nueva orden ERP" onClose={() => !saving && setCreateOpen(false)}>
                 <form className="erp-order-form" onSubmit={saveOrder}>
                     <div className="erp-form-step"><span>1</span><div><strong>Selecciona el cliente</strong><small>Se consulta el registro existente en CRM.</small></div></div>
                     <label>Cliente
@@ -234,16 +264,29 @@ export default function Ordenes() {
                     <div className="erp-form-step"><span>2</span><div><strong>Agrega productos</strong><small>Los precios y existencias vienen del inventario SCM.</small></div></div>
                     <div className="erp-add-product">
                         <label>Producto
-                            <select value={form.producto_id} onChange={event => setForm(current => ({ ...current, producto_id: event.target.value }))}>
+                            <select value={form.producto_id} onChange={event => {
+                                const productId = Number(event.target.value);
+                                const product = catalog.productos.find(item => Number(item.id_producto) === productId);
+                                const existing = form.items.find(item => item.producto_id === productId);
+                                setForm(current => ({ ...current, producto_id: event.target.value }));
+                                setStockWarning(getStockWarning(product, form.cantidad, existing?.cantidad || 0));
+                            }}>
                                 <option value="">Seleccionar producto</option>
                                 {catalog.productos.map(product => <option key={product.id_producto} value={product.id_producto} disabled={Number(product.stock_actual) < 1}>{product.nombre} · {product.stock_actual} disponibles · {money(product.precio_venta)}</option>)}
                             </select>
                         </label>
                         <label className="erp-quantity-field">Cantidad
-                            <input type="number" min="1" max={selectedProduct?.stock_actual || undefined} value={form.cantidad} onChange={event => setForm(current => ({ ...current, cantidad: event.target.value }))} />
+                            <input type="number" min="1" max={selectedProduct ? (availableToAdd || undefined) : undefined} value={form.cantidad} onChange={event => {
+                                const value = event.target.value;
+                                setForm(current => ({ ...current, cantidad: value }));
+                                setStockWarning(getStockWarning(selectedProduct, value, selectedExistingQuantity));
+                            }} />
+                            {selectedProduct && <small className="erp-stock-availability">Disponibles para agregar a esta orden: {availableToAdd} de {selectedProduct.stock_actual} unidades.</small>}
                         </label>
-                        <button type="button" className="btn btn-secondary" disabled={!selectedProduct} onClick={addProduct}><Plus size={16} /> Agregar</button>
+                        <button type="button" className="btn btn-secondary" disabled={!selectedProduct || Boolean(stockWarning)} onClick={addProduct}><Plus size={16} /> Agregar</button>
                     </div>
+
+                    {(invalidOrderItem || stockWarning) && <div className="erp-stock-warning" role="alert"><AlertTriangle size={18} /><span>{invalidOrderItem ? (getStockWarning(invalidOrderItem.producto, invalidOrderItem.cantidad) || 'Uno de los productos ya no está disponible en el catálogo.') : stockWarning}</span></div>}
 
                     {selectedItems.length ? <div className="table-wrap erp-order-preview">
                         <table>
@@ -255,7 +298,7 @@ export default function Ordenes() {
                                     <td>{money(item.producto?.precio_venta)}</td>
                                     <td><input className="erp-line-quantity" type="number" min="1" max={item.producto?.stock_actual || 1} value={item.cantidad} onChange={event => updateQuantity(item.producto_id, event.target.value)} /></td>
                                     <td>{money(Number(item.producto?.precio_venta || 0) * item.cantidad)}</td>
-                                    <td><button type="button" className="icon-button danger" aria-label="Quitar producto" onClick={() => setForm(current => ({ ...current, items: current.items.filter(value => value.producto_id !== item.producto_id) }))}><XCircle size={17} /></button></td>
+                                    <td><button type="button" className="icon-button danger" aria-label="Quitar producto" onClick={() => { setStockWarning(''); setForm(current => ({ ...current, items: current.items.filter(value => value.producto_id !== item.producto_id) })); }}><XCircle size={17} /></button></td>
                                 </tr>
                             ))}</tbody>
                         </table>
@@ -265,7 +308,7 @@ export default function Ordenes() {
                     <p className="form-help">Al confirmar, el sistema valida el stock, registra la orden y descuenta existencias junto con su movimiento de inventario.</p>
                     <div className="form-actions">
                         <button type="button" className="btn btn-secondary" disabled={saving} onClick={() => setCreateOpen(false)}>Cancelar</button>
-                        <button type="submit" className="btn btn-primary" disabled={saving || !form.cliente_id || !form.items.length}>{saving ? 'Procesando orden…' : 'Confirmar y procesar'}</button>
+                        <button type="submit" className="btn btn-primary" disabled={saving || !form.cliente_id || !form.items.length || Boolean(invalidOrderItem)}>{saving ? 'Procesando orden…' : 'Confirmar y procesar'}</button>
                     </div>
                 </form>
             </Modal>
